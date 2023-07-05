@@ -1,8 +1,12 @@
 @import "_myBootstrap.scss";
 
-//@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap");
-// font-family: 'Open Sans', sans-serif;
-// font-family: 'Roboto', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 Body {
-  background-color: $scuro;
+  background-color: $primario;
+}
+
+.logo {
+  font-family: "VT323", monospace;
+  line-height: 34px;
+  text-shadow: $text-shadow-logo;
 }

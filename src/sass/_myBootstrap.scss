@@ -1,11 +1,25 @@
 //variabili
-$scuro: #070802;
-$violetto: #5e0080;
+$primario: #0b1622;
+$secondario: #151f2e;
+$terziario: #11161d;
+$bianco: #ececec;
+$quaternario: #5e2962;
+$text-shadow-logo: $quaternario 1px 1px, $quaternario 0px -0px,
+  $quaternario 1px -1px, $quaternario 2px -2px, $quaternario 3px -3px,
+  $quaternario 4px -4px;
+
 //personalizazzioni
 $theme-colors: (
-  "scuro": $scuro,
-  "violetto": $violetto,
+  "primario": $primario,
+  "secondario": $secondario,
+  "terziario": $terziario,
+  "quaternario": $quaternario,
+  "bianco": $bianco,
 );
+$box-shadow: 0 0.5rem 1rem rgba($bianco, 0.15);
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($bianco, 0.075);
+$box-shadow-lg: 0 1rem 3rem rgba($bianco, 0.475);
+$box-shadow-inset: inset 0 1px 2px rgba($bianco, 0.075);
 
 $custom-size: ();
 
