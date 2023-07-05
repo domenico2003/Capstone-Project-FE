@@ -1,0 +1,18 @@
+//variabili
+$scuro: #070802;
+$violetto: #5e0080;
+//personalizazzioni
+$theme-colors: (
+  "scuro": $scuro,
+  "violetto": $violetto,
+);
+
+$custom-size: ();
+
+$custom-spacings: ();
+
+@import "~bootstrap/scss/bootstrap";
+// $colors: map-merge($colors, $custom-color);
+// $theme-colors: map-merge($theme-colors, $custom-color);
+// $font-sizes: map-merge($font-sizes, $custom-size);
+// $spacers: map-merge($spacers, $custom-spacings);
