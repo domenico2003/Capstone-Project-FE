@@ -1,14 +1,21 @@
-import { useEffect } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const MyNavbar = () => {
+  let profile = useSelector((state) => state.profilo.me);
   const location = useLocation();
   const navigate = useNavigate();
+
   return (
-    <Navbar expand="md" className="bg-terziario shadow " data-bs-theme="dark">
+    <Navbar
+      expand="md"
+      className="bg-terziario shadow "
+      sticky="top"
+      data-bs-theme="dark"
+    >
       <Container>
-        <Link to={"/"} className="navbar-brand logo  fs-1">
+        <Link to={"/"} className="navbar-brand logo  brand mb-0">
           gamerHUB
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -57,13 +64,22 @@ const MyNavbar = () => {
               Admin
             </Link>
           </Nav>
-          <Button
-            variant="quaternario"
-            className="ms-auto text-bianco"
-            onClick={() => navigate("/login")}
-          >
-            Accedi
-          </Button>
+          {profile === null ? (
+            <Button
+              variant="quaternario"
+              className="ms-auto text-bianco"
+              onClick={() => navigate("/login")}
+            >
+              Accedi
+            </Button>
+          ) : (
+            <img
+              className="immagine-nav"
+              alt={profile?.nome + " " + profile?.cognome}
+              src={profile?.immagineProfilo}
+              onClick={() => navigate("/me")}
+            />
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

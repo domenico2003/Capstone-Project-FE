@@ -7,7 +7,8 @@ function HomePage() {
   let profile = useSelector((state) => state.profilo.me);
 
   useEffect(() => {
-    if (localStorage.getItem("token") !== null) {
+    console.log(localStorage.getItem("token") != null);
+    if (localStorage.getItem("token") != null) {
       dispatch(profileFetch());
     }
   }, []);
@@ -15,7 +16,15 @@ function HomePage() {
   useEffect(() => {
     console.log(profile);
   }, [profile]);
-  return;
+  return (
+    <>
+      {profile !== null && (
+        <p className="text-bianco">
+          benvenuto {profile?.nome} {profile?.cognome}
+        </p>
+      )}
+    </>
+  );
 }
 
 export default HomePage;

@@ -16,6 +16,9 @@ $theme-colors: (
   "quaternario": $quaternario,
   "bianco": $bianco,
 );
+$font-sizes: (
+  7: 12px,
+);
 $box-shadow: 0 0.5rem 1rem rgba($bianco, 0.15);
 $box-shadow-sm: 0 0.125rem 0.25rem rgba($bianco, 0.075);
 $box-shadow-lg: 0 1rem 3rem rgba($bianco, 0.475);

@@ -3,10 +3,29 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 Body {
   background-color: $primario;
+
+  .login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.spinnerBackground {
+  background-color: rgba(0, 0, 0, 0.534);
+  z-index: 2000;
 }
 
+.immagine-nav {
+  height: 30px;
+  border-radius: 40px;
+}
 .logo {
   font-family: "VT323", monospace;
   line-height: 34px;
   text-shadow: $text-shadow-logo;
+}
+
+.brand {
+  font-size: 2.5rem;
 }
