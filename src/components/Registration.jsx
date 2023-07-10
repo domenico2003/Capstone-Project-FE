@@ -124,7 +124,7 @@ const Registration = () => {
                 Inserisci la password!
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicNome">
               <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
@@ -138,7 +138,7 @@ const Registration = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicCognome">
               <Form.Label>Cognome</Form.Label>
               <Form.Control
                 type="text"
@@ -151,7 +151,7 @@ const Registration = () => {
                 Inserisci il tuo cognome!
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicUsername">
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"

@@ -55,14 +55,16 @@ const MyNavbar = () => {
             >
               Gruppi
             </Link>
-            <Link
-              className={`nav-link ${
-                location.pathname === "/admin" ? "text-bianco fw-bold" : ""
-              }`}
-              to={"/admin"}
-            >
-              Admin
-            </Link>
+            {profile !== null && profile?.ruolo === "ADMIN" && (
+              <Link
+                className={`nav-link ${
+                  location.pathname === "/admin" ? "text-bianco fw-bold" : ""
+                }`}
+                to={"/admin"}
+              >
+                Admin
+              </Link>
+            )}
           </Nav>
           {profile === null ? (
             <Button
@@ -74,7 +76,7 @@ const MyNavbar = () => {
             </Button>
           ) : (
             <img
-              className="immagine-nav"
+              className="immagine-nav pointer"
               alt={profile?.nome + " " + profile?.cognome}
               src={profile?.immagineProfilo}
               onClick={() => navigate("/me")}

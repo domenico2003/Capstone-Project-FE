@@ -54,7 +54,7 @@ const Login = () => {
         >
           <p className="h1 logo fw-bold text-bianco">Accedi</p>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicLoginEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -69,7 +69,7 @@ const Login = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicLoginPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"

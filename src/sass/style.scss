@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 Body {
   background-color: $primario;
-
+  overflow-x: hidden;
   .login {
     position: absolute;
     top: 50%;
@@ -15,17 +15,77 @@ Body {
   background-color: rgba(0, 0, 0, 0.534);
   z-index: 2000;
 }
+@media (min-width: 992px) {
+  .translate-sx {
+    transition: transform 2000ms linear;
+  }
+  .translate-dx {
+    transition: transform 1600ms linear;
+  }
+  .translate-dx:hover {
+    transform: translateX(25rem);
+  }
+  .translate-sx:hover {
+    transform: translateX(-25rem);
+  }
+}
 
+.pointer {
+  cursor: pointer;
+}
 .immagine-nav {
   height: 30px;
   border-radius: 40px;
 }
+
+.immagineGruppoHome {
+  max-height: 40px;
+  width: max-content;
+  border-radius: 10px;
+}
+
 .logo {
   font-family: "VT323", monospace;
   line-height: 34px;
   text-shadow: $text-shadow-logo;
 }
 
+.logo-no-nav {
+  font-family: "VT323", monospace;
+  letter-spacing: 3px;
+  //font-size: 3rem;
+  text-shadow: $text-shadow-logo;
+}
+
 .brand {
   font-size: 2.5rem;
+}
+
+.header {
+  background: rgb(11, 22, 34);
+  background: linear-gradient(
+    193deg,
+    rgba(11, 22, 34, 1) 2%,
+    rgba(50, 7, 80, 1) 100%
+  );
+  height: 25rem;
+  .sx-div {
+    height: fit-content;
+  }
+}
+.iconeHome {
+  transform: rotateZ(-36deg);
+  font-size: 2rem;
+}
+
+.groupHome:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0.5rem 1rem rgba($bianco, 0.15);
+}
+
+.groupHome {
+  transition: all 0.4s linear;
+}
+.opacity-none {
+  opacity: 100%;
 }
