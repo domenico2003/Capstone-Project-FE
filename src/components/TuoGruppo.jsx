@@ -101,7 +101,13 @@ const TuoGruppo = ({ mioGruppo }) => {
               <img
                 src={gruppo?.immagineGruppo}
                 alt={gruppo?.nome}
-                className="img-fluid gruppoImmagine"
+                className={`img-fluid gruppoImmagine  ${
+                  location.pathname === "/me" && "pointer"
+                }`}
+                onClick={() =>
+                  location.pathname === "/me" &&
+                  navigate("/gruppi/" + gruppo?.id)
+                }
               />
             </Col>
             <Col
@@ -111,7 +117,15 @@ const TuoGruppo = ({ mioGruppo }) => {
             >
               <div>
                 <div className="d-flex align-items-center justify-content-center">
-                  <p className="text-center text-bianco h2 fw-bold mt-3 mt-md-0">
+                  <p
+                    className={`text-center text-bianco h2 fw-bold mt-3 mt-md-0 ${
+                      location.pathname === "/me" && "pointer"
+                    }`}
+                    onClick={() =>
+                      location.pathname === "/me" &&
+                      navigate("/gruppi/" + gruppo?.id)
+                    }
+                  >
                     {gruppo?.nome}
                   </p>
                   {gruppo?.id === profile?.gruppo?.id && (

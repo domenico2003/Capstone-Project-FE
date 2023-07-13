@@ -14,6 +14,7 @@ import NoAccessContent from "./NoAccessContent";
 import { IoMdSettings } from "react-icons/io";
 import { useEffect } from "react";
 import TuoGruppo from "./TuoGruppo";
+import TuoiPost from "./TuoiPost";
 
 const MyAccount = () => {
   const navigate = useNavigate();
@@ -103,7 +104,7 @@ const MyAccount = () => {
                 <TuoGruppo mioGruppo={profile?.gruppo} />
               </Tab>
               <Tab eventKey="i Tuoi Post" title="i Tuoi Post">
-                Tab content for Profile
+                <TuoiPost />
               </Tab>
               <Tab
                 eventKey="Videogiochi Preferiti"
