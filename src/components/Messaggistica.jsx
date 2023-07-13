@@ -12,17 +12,15 @@ const Messaggistica = ({ idGruppo }) => {
   const [pagina, setPagina] = useState(0);
   const [spinner, setSpinner] = useState(false);
   const [modalePost, setModalePost] = useState(false);
+
   useEffect(() => {
     gruppoPostFetch();
   }, [pagina]);
+
   const gruppoPostFetch = async () => {
     setSpinner(true);
     const URL =
-      "http://localhost:3001/post?idGruppo=" +
-      idGruppo +
-      "&page=" +
-      pagina +
-      "&order=dataCreazione";
+      "http://localhost:3001/post?idGruppo=" + idGruppo + "&page=" + pagina;
     const headers = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -88,6 +86,7 @@ const Messaggistica = ({ idGruppo }) => {
                 key={indice + "/postPerGruppo"}
                 post={post}
                 idGruppo={idGruppo}
+                gruppopostfetch={gruppoPostFetch}
               />
             </>
           ))}
@@ -113,6 +112,7 @@ const Messaggistica = ({ idGruppo }) => {
                 variant="outline-quaternario"
                 onClick={() => setPagina(pagina - 1)}
                 className="me-4 flex-fill"
+                href="#"
               >
                 Precedente
               </Button>
@@ -124,6 +124,7 @@ const Messaggistica = ({ idGruppo }) => {
                 variant="outline-quaternario "
                 onClick={() => setPagina(pagina + 1)}
                 className="flex-fill"
+                href="#"
               >
                 Successiva
               </Button>

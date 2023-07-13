@@ -5,10 +5,11 @@ import {
   Container,
   Dropdown,
   Form,
+  Modal,
   Row,
   Spinner,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiSolidPencil, BiSolidCommentDetail } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { AiFillLike } from "react-icons/ai";
@@ -16,31 +17,52 @@ import { FaArrowRight } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { FiArrowDown } from "react-icons/fi";
+import ModalPost from "./ModalPost";
+import ModalSuccessAction from "./ModalSuccessAction";
+import ModalModificaCommento from "./ModalModificaCommento.jsx";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, idGruppo, gruppopostfetch }) => {
+  //mi prendo il mio profilo
   let profile = useSelector((state) => state.profilo.me);
+
+  // uso i vari state
   const [spinnerStatus, setSpinnerStatus] = useState(false);
   const [publicante, setPublicante] = useState(null);
+  const [commentoSelezionato, setCommentoSelezionato] = useState(null);
   const [miPiace, setMiPiace] = useState(null);
   const [showCommenti, setShowCommenti] = useState(false);
   const [allCommenti, setAllCommenti] = useState([]);
   const [pagina, setPagina] = useState(0);
   const [altri, setAltri] = useState(false);
+  const [showModaleModificaPost, setShowModaleModificaPost] = useState(false);
+  const [showModaleEliminaPost, setShowModaleEliminaPost] = useState(false);
+  const [showModaleEliminaCommento, setShowModaleEliminaCommento] =
+    useState(false);
+  const [showModaleModificaCommento, setShowModaleModificaCommento] =
+    useState(false);
+  const [showModaleEliminaPostSuccess, setShowModaleEliminaPostSuccess] =
+    useState(false);
+  const [
+    showModaleEliminaCommentoSuccess,
+    setShowModaleEliminaCommentoSuccess,
+  ] = useState(false);
 
+  // mi impirto i vari hock
   const navigate = useNavigate();
+  const location = useLocation();
 
+  //faccio uno use effect per impostarmi i miPiace
   useEffect(() => {
     setPublicante(post?.utenteCheLoHaPublicato);
     setMiPiace(post?.numeroMiPiace);
   }, [post]);
 
-  // useEffect(() => {
-  //   console.log(allCommenti);
-  // }, [allCommenti]);
+  // funzione richiamata al click del miPiace
   const handleMiPiace = () => {
     setMiPiace(miPiace + 1);
     miPiaceFetch();
   };
+
   //fetch per commento con validazione
   const [commento, setCommento] = useState("");
   const [validated, setValidated] = useState(false);
@@ -86,6 +108,7 @@ const SinglePost = ({ post }) => {
       }
     }
   };
+
   //fetch mi piace
   const miPiaceFetch = async () => {
     const URL = "http://localhost:3001/post/miPiace/" + post?.id;
@@ -98,7 +121,6 @@ const SinglePost = ({ post }) => {
     try {
       let risposta = await fetch(URL, headers);
       if (risposta.ok) {
-        let dato = await risposta.json();
       }
     } catch (error) {
       console.log(error);
@@ -106,7 +128,6 @@ const SinglePost = ({ post }) => {
   };
 
   //fetch commenti
-
   useEffect(() => {
     if (pagina !== 0) {
       allCommentiFetch();
@@ -114,8 +135,6 @@ const SinglePost = ({ post }) => {
   }, [pagina]);
 
   const allCommentiFetch = async () => {
-    console.log("fetch");
-
     setSpinnerStatus(true);
     const URL =
       "http://localhost:3001/commento?postId=" + post?.id + "&page=" + pagina;
@@ -129,7 +148,7 @@ const SinglePost = ({ post }) => {
       if (risposta.ok) {
         let dato = await risposta.json();
         setAltri(dato.last);
-        console.log(dato);
+
         setAllCommenti([...allCommenti, ...dato?.content]);
       }
     } catch (error) {
@@ -141,6 +160,62 @@ const SinglePost = ({ post }) => {
     }
   };
 
+  // fetch per eliminare post
+  const handleEliminaPostClick = async () => {
+    const URL = "http://localhost:3001/post/" + post?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        setShowModaleEliminaPostSuccess(true);
+
+        setTimeout(() => {
+          setShowModaleEliminaPostSuccess(false);
+          gruppopostfetch();
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //fetch eliminare commento
+  const resetAllCommenti = () => {
+    let arrayVuoto = [];
+
+    setAllCommenti(arrayVuoto);
+  };
+  const handleEliminaCommentoClick = async (e) => {
+    e.preventDefault();
+    setShowModaleEliminaCommento(false);
+    const URL = "http://localhost:3001/commento/" + commentoSelezionato?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        setShowModaleEliminaCommentoSuccess(true);
+
+        setTimeout(() => {
+          setShowModaleEliminaCommentoSuccess(false);
+
+          allCommentiFetch();
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Col
@@ -149,6 +224,7 @@ const SinglePost = ({ post }) => {
         xl={6}
         className="bg-secondario border border-2 border-quaternario mb-3"
       >
+        {/* inserisco elementi del post  */}
         <Row className=" p-3 text-bianco">
           <Col
             xs={2}
@@ -172,23 +248,39 @@ const SinglePost = ({ post }) => {
               </p>
               <small className="m-0 text-white-50">{publicante?.email}</small>
             </div>
+
             {publicante?.id === profile?.id && (
               <div>
-                <Button variant="outline-quaternario me-2">
-                  <BiSolidPencil />
-                </Button>
-                <Button variant="outline-danger">
+                {location.pathname !== "/me" && (
+                  <Button
+                    variant="outline-quaternario me-2"
+                    onClick={() => {
+                      setShowModaleModificaPost(true);
+                    }}
+                  >
+                    <BiSolidPencil />
+                  </Button>
+                )}
+                <Button
+                  variant="outline-danger"
+                  onClick={() => {
+                    setShowModaleEliminaPost(true);
+                  }}
+                >
                   <BsFillTrashFill />
                 </Button>
               </div>
             )}
           </Col>
         </Row>
+
         <hr className="border m-0 border-2 border-quaternario opacity-75" />
-        <div className="p-3 text-white-50">
-          <p>{post?.contenuto}</p>
+
+        <div className="p-3 text-white-50 ">
+          <p className="text-break">{post?.contenuto}</p>
+
           <div className="d-flex justify-content-center">
-            {post?.immagine !== null && (
+            {post?.immagine !== "" && (
               <img
                 className="img-fluid"
                 src={post?.immagine}
@@ -203,7 +295,9 @@ const SinglePost = ({ post }) => {
             <small>aggiornato il: {post.dataUltimoAggiornamento}</small>
           </div>
         </div>
+
         <hr className="border my-0  border-2 border-quaternario opacity-75" />
+
         <div className="p-3 text-white d-flex align-items-end justify-content-around">
           <div
             className="d-flex pointer align-items-center"
@@ -216,11 +310,15 @@ const SinglePost = ({ post }) => {
             className="fw-bold h4 m-0 text-white pointer"
             onClick={() => {
               setShowCommenti(true);
-
-              allCommentiFetch();
+              if (allCommenti.length < 1) {
+                allCommentiFetch();
+              }
             }}
           />
         </div>
+        {/* fine degli elementi del post */}
+
+        {/* sezione commenti */}
         {showCommenti && (
           <>
             <hr className="border my-0  border-2 border-quaternario opacity-75" />
@@ -288,13 +386,20 @@ const SinglePost = ({ post }) => {
                                   <Button
                                     variant="outline-danger"
                                     className="mb-2 border-0 border-bottom border-danger border-3"
-                                    // onClick={handleLogout}
+                                    onClick={() => {
+                                      setCommentoSelezionato(comm);
+                                      setShowModaleEliminaCommento(true);
+                                    }}
                                   >
                                     Elimina
                                   </Button>
                                   <Button
                                     variant="outline-quaternario"
                                     className=" border-0 border-top border-quaternario border-3"
+                                    onClick={() => {
+                                      setCommentoSelezionato(comm);
+                                      setShowModaleModificaCommento(true);
+                                    }}
                                   >
                                     Modifica
                                   </Button>
@@ -340,6 +445,124 @@ const SinglePost = ({ post }) => {
           </>
         )}
       </Col>
+      {/* fine del post */}
+      {/* modale per modificare post */}
+      {showModaleModificaPost && (
+        <ModalPost
+          show={showModaleModificaPost}
+          onHide={() => setShowModaleModificaPost(false)}
+          idGruppo={idGruppo}
+          gruppopostfetch={() => gruppopostfetch()}
+          post={post}
+        />
+      )}
+      {/* modale per eliminare post*/}
+      {showModaleEliminaPost && (
+        <Modal
+          size="md"
+          show={showModaleEliminaPost}
+          onHide={() => setShowModaleEliminaPost(false)}
+          aria-labelledby="example-modal-sizes-title-sm"
+          className="text-bianco"
+        >
+          <Modal.Header closeButton className="bg-secondario">
+            <Modal.Title id="example-modal-sizes-title-sm">
+              Elimina post
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
+            <p className="text-center">Sicuro di voler eliminare il post?</p>
+            <div>
+              <Button
+                variant="danger"
+                size="sm"
+                className="ms-4"
+                onClick={() => {
+                  handleEliminaPostClick();
+                  setShowModaleEliminaPost(false);
+                }}
+              >
+                Elimina
+              </Button>
+              <Button
+                variant="outline-quaternario"
+                size="sm"
+                className="ms-4"
+                onClick={() => setShowModaleEliminaPost(false)}
+              >
+                Chiudi
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {/* modale per eliminare commento */}
+      {showModaleEliminaCommento && (
+        <Modal
+          size="md"
+          show={showModaleEliminaCommento}
+          onHide={() => setShowModaleEliminaCommento(false)}
+          aria-labelledby="example-modal-sizes-title-sm"
+          className="text-bianco"
+        >
+          <Modal.Header closeButton className="bg-secondario">
+            <Modal.Title id="example-modal-sizes-title-sm">
+              Elimina commento
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
+            <p className="text-center">
+              Sicuro di voler eliminare il commento?
+            </p>
+            <div>
+              <Form onSubmit={handleEliminaCommentoClick}>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="ms-4"
+                  type="submit"
+                  onClick={() => resetAllCommenti()}
+                >
+                  Elimina
+                </Button>
+
+                <Button
+                  variant="outline-quaternario"
+                  size="sm"
+                  className="ms-4"
+                  onClick={() => setShowModaleEliminaCommento(false)}
+                >
+                  Chiudi
+                </Button>
+              </Form>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {/* modali per feedback di successo  */}
+      {showModaleEliminaPostSuccess && (
+        <ModalSuccessAction
+          text={"Post eliminato con successo"}
+          show={showModaleEliminaPostSuccess}
+        />
+      )}
+      {showModaleEliminaCommentoSuccess && (
+        <ModalSuccessAction
+          text={"Commento eliminato con successo"}
+          show={showModaleEliminaCommentoSuccess}
+        />
+      )}
+      {/* modale per modificare commento */}
+      {showModaleModificaCommento && (
+        <ModalModificaCommento
+          show={showModaleModificaCommento}
+          onHide={() => setShowModaleModificaCommento(false)}
+          commento={commentoSelezionato}
+          idPost={post?.id}
+          allCommentiFetch={() => allCommentiFetch()}
+          resetCommenti={() => setAllCommenti([])}
+        />
+      )}
     </>
   );
 };
