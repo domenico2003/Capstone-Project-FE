@@ -32,9 +32,6 @@ function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log(gruppi);
-  }, [videogiochi]);
   return (
     <>
       <Container fluid className="header ">
@@ -167,7 +164,11 @@ function HomePage() {
         ) : (
           <Row className="justify-content-center justify-content-sm-evenly ">
             {gruppi?.map((group, index) => (
-              <GruppiHome gruppo={group} index={index} />
+              <GruppiHome
+                key={index + "/gruppoHome"}
+                gruppo={group}
+                index={index}
+              />
             ))}
           </Row>
         )}

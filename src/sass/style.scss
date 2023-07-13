@@ -89,3 +89,108 @@ Body {
 .opacity-none {
   opacity: 100%;
 }
+
+//pagina /me
+.profilo-details {
+  height: 15rem;
+  border-radius: 200rem;
+}
+.dropdown-toggle::after {
+  display: none;
+}
+
+.nav-tabs {
+  .nav-item {
+    .nav-link {
+      color: $quaternario;
+      font-weight: bold;
+    }
+    .nav-link:hover {
+      border-color: $quaternario;
+    }
+    .active {
+      color: $bianco;
+      font-weight: bold;
+      background-color: $quaternario;
+      border: none;
+    }
+  }
+}
+
+.clicked {
+  transform: scale(1);
+  transition: all 0.1s linear;
+}
+
+.clicked:active {
+  transform: scale(1.5);
+}
+
+.gruppoImmagine {
+  height: 15rem;
+  border-radius: 1rem;
+}
+.immagine-pagginaGruppo {
+  height: 50px;
+  border-radius: 40px;
+}
+.input-commento {
+  width: 60%;
+
+  background-color: $primario;
+  border-color: $bianco;
+  color: $bianco;
+  margin: 0;
+  border-right: 0;
+}
+
+.input-commento:focus {
+  background-color: $secondario;
+  border-color: $bianco;
+  color: $bianco;
+}
+.input-commento::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-per-post {
+  background-color: $primario;
+
+  border-radius: 40px;
+}
+
+.input-per-post :focus {
+  background-color: $secondario;
+  border-color: $bianco;
+  color: $bianco;
+}
+.input-per-post::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-per-texArea {
+  background-color: $primario;
+  color: $bianco;
+}
+.input-per-texArea:focus {
+  background-color: $primario;
+  border-color: $bianco;
+  color: $bianco;
+}
+.input-per-texArea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-per-modali {
+  background-color: $primario;
+  color: $bianco;
+  border-radius: 40px;
+}
+.input-per-modali:focus {
+  background-color: $primario;
+  color: $bianco;
+  border-color: $bianco;
+}
+.input-per-modali::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}

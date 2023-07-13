@@ -7,6 +7,7 @@ const Footer = () => {
   const location = useLocation();
   let profile = useSelector((state) => state.profilo.me);
   const [footerStatus, setFooterStatus] = useState(false);
+  const [stiky, setStiky] = useState(false);
   useEffect(() => {
     if (location.pathname === "/login") {
       setFooterStatus(false);
@@ -15,12 +16,28 @@ const Footer = () => {
     } else {
       setFooterStatus(true);
     }
+
+    if (localStorage.getItem("token") === null) {
+      if (location.pathname !== "/") {
+        setStiky(true);
+      } else {
+        setStiky(false);
+      }
+    } else {
+      setStiky(false);
+    }
   }, [location.pathname]);
 
   return (
     <>
       {footerStatus && (
-        <div className="bg-terziario text-white-50 footer mt-5 py-5">
+        <div
+          className={
+            !stiky
+              ? `bg-terziario text-white-50 footer mt-5 py-5 `
+              : "fixed-bottom bg-terziario text-white-50 footer mt-5 py-5"
+          }
+        >
           <Container>
             <Row className="justify-content-center">
               <Col xs={8} md={3}>

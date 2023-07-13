@@ -11,7 +11,6 @@ export const setVideogiochiHomeAction = (dato) => {
 };
 
 export const setGruppiHomeAction = (dato) => {
-  console.log(dato);
   return { type: SET_GRUPPI_HOME, payload: dato };
 };
 
@@ -60,7 +59,6 @@ export const videogiochiHomeFetch = () => {
     const URL = "http://localhost:3001/videogioco/all?valutazioneMedia=4";
 
     try {
-      console.log("fetch");
       let risposta = await fetch(URL);
       if (risposta.ok) {
         let dato = await risposta.json();
