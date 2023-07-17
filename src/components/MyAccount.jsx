@@ -202,7 +202,11 @@ const MyAccount = () => {
                     </div>
                   </>
                 )}
-
+                {videogiochiPreferiti.length === 0 && !spinnerPreferiti && (
+                  <p className="text-center display-6 mt-5 fw-bold text-bianco">
+                    non hai alcun videogioco tra i preferiti
+                  </p>
+                )}
                 {videogiochiPreferiti.length > 0 && !spinnerPreferiti && (
                   <Row className="justify-content-center mt-4 mb-5">
                     <Col xs={6} sm={4} lg={2} className="d-flex">

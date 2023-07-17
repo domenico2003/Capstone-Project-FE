@@ -69,11 +69,6 @@ const ModalAggiungiVideogioco = (props) => {
     generiFetch();
   }, []);
 
-  useEffect(() => {
-    console.log(allGeneri);
-    console.log(allPiattaforme);
-  }, [allGeneri, allPiattaforme]);
-
   //fetch generi
   const generiFetch = async () => {
     const URL = "http://localhost:3001/videogioco/generi";

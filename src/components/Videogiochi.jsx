@@ -154,7 +154,6 @@ const Videogiochi = () => {
               <Form.Label>Genere</Form.Label>
               <Form.Select
                 className="input-per-modali "
-                value={genereInpostato}
                 onClick={() => setOnSelectClick(!onSelectClick)}
               >
                 <option className="d-none">{genereInpostato}</option>
