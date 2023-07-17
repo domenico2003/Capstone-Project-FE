@@ -19,35 +19,40 @@ const TuoiPost = ({ utente }) => {
   }, [pagina]);
 
   useEffect(() => {
+    utentePostFetch();
+  }, [profilo]);
+  useEffect(() => {
     if (location.pathname === "/me") {
       setProfilo(profile);
     } else {
       setProfilo(utente);
     }
-  }, [utente]);
+  }, [location.pathname]);
 
   const utentePostFetch = async () => {
-    setSpinner(true);
-    const URL =
-      "http://localhost:3001/post?userId=" + profile?.id + "&page=" + pagina;
-    const headers = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    };
-    try {
-      let risposta = await fetch(URL, headers);
-      if (risposta.ok) {
-        let dato = await risposta.json();
+    if (profilo !== null) {
+      setSpinner(true);
+      const URL =
+        "http://localhost:3001/post?userId=" + profilo.id + "&page=" + pagina;
+      const headers = {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      };
+      try {
+        let risposta = await fetch(URL, headers);
+        if (risposta.ok) {
+          let dato = await risposta.json();
 
-        setPost(dato);
+          setPost(dato);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setTimeout(() => {
+          setSpinner(false);
+        }, 1500);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setTimeout(() => {
-        setSpinner(false);
-      }, 1500);
     }
   };
   return (

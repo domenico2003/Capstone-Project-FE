@@ -8,6 +8,8 @@ import Registration from "./components/Registration";
 import Footer from "./components/Footer";
 import TuoGruppo from "./components/TuoGruppo";
 import ProfiloDettaglio from "./components/ProfiloDettaglio";
+import Videogiochi from "./components/Videogiochi";
+import DettaglioVideogioco from "./components/DettaglioVideogioco";
 
 function App() {
   return (
@@ -15,10 +17,12 @@ function App() {
       <MyNavbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/videogiochi" element={<Videogiochi />} />
         <Route path="/login" element={<Login />} />
         <Route path="/me" element={<MyAccount />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/gruppi/:id" element={<TuoGruppo />} />
+        <Route path="/videogiochi/:id" element={<DettaglioVideogioco />} />
         <Route path="/profilo/:id" element={<ProfiloDettaglio />} />
       </Routes>
       <Footer />

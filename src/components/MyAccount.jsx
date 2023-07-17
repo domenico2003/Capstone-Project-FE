@@ -4,6 +4,7 @@ import {
   Container,
   Dropdown,
   Row,
+  Spinner,
   Tab,
   Tabs,
 } from "react-bootstrap";
@@ -15,12 +16,21 @@ import { IoMdSettings } from "react-icons/io";
 import { useEffect } from "react";
 import TuoGruppo from "./TuoGruppo";
 import TuoiPost from "./TuoiPost";
+import { useState } from "react";
+import GrigliaVideogiochi from "./GrigliaVideogiochi";
 
 const MyAccount = () => {
   const navigate = useNavigate();
   let dispatch = useDispatch();
   let profile = useSelector((state) => state.profilo.me);
-
+  const [videogiochi, setVideogiochi] = useState(null);
+  const [pagina, setPagina] = useState(0);
+  const [spinner, setSpinner] = useState(false);
+  const [videogiochiPreferiti, setVideogiochiPreferiti] = useState([]);
+  const [paginaPreferiti, setPaginaPreferiti] = useState(0);
+  const [spinnerPreferiti, setSpinnerPreferiti] = useState(false);
+  const [isLastPreferitiPage, setIsLastPreferitiPage] = useState(false);
+  const [isFirstPreferitiPage, setIsFirstPreferitiPage] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
     dispatch(setProfileAction(null));
@@ -28,9 +38,77 @@ const MyAccount = () => {
   };
 
   useEffect(() => {
-    console.log(profile);
-  }, [profile]);
+    videogiochiFetch();
+  }, [pagina]);
+  useEffect(() => {
+    videogiochiPreferitiFetch();
+  }, [paginaPreferiti]);
 
+  const videogiochiFetch = async () => {
+    setSpinner(true);
+    const URL =
+      "http://localhost:3001/videogioco/all?size=20&page=" +
+      pagina +
+      "&responsabileEmail=" +
+      profile?.email;
+    const headers = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        let dato = await risposta.json();
+
+        setVideogiochi(dato);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setSpinner(false);
+      }, 1500);
+    }
+  };
+
+  const videogiochiPreferitiFetch = async () => {
+    setSpinnerPreferiti(true);
+    const URL =
+      "http://localhost:3001/preferiti/" +
+      profile?.id +
+      "?page=" +
+      paginaPreferiti;
+    const headers = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        let dato = await risposta.json();
+        const contenuto = dato.content;
+        let preferiti = [];
+        contenuto.forEach((preferito) => {
+          preferiti = [
+            ...preferiti,
+            { ...preferito?.gioco, idPreferito: preferito.id },
+          ];
+        });
+
+        setIsFirstPreferitiPage(dato.first);
+        setIsLastPreferitiPage(dato.last);
+        setVideogiochiPreferiti(preferiti);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setSpinnerPreferiti(false);
+      }, 1500);
+    }
+  };
   return (
     <>
       <Container className="mt-5">
@@ -109,15 +187,104 @@ const MyAccount = () => {
               <Tab
                 eventKey="Videogiochi Preferiti"
                 title="Videogiochi Preferiti"
+                className=" bg-secondario p-3 mt-5 rounded-4 shadow"
               >
-                Tab content for Loooonger Tab
+                {spinnerPreferiti ? (
+                  <div className="d-flex justify-content-center my-5">
+                    <Spinner animation="grow" variant="quaternario" />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <GrigliaVideogiochi
+                        listaRisultati={videogiochiPreferiti}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {videogiochiPreferiti.length > 0 && !spinnerPreferiti && (
+                  <Row className="justify-content-center mt-4 mb-5">
+                    <Col xs={6} sm={4} lg={2} className="d-flex">
+                      {!isFirstPreferitiPage && (
+                        <Button
+                          variant="outline-quaternario"
+                          onClick={() =>
+                            setPaginaPreferiti(paginaPreferiti - 1)
+                          }
+                          className="me-4 flex-fill"
+                          href="#"
+                        >
+                          Precedente
+                        </Button>
+                      )}
+                    </Col>
+                    <Col xs={6} sm={4} lg={2} className="d-flex">
+                      {!isLastPreferitiPage && (
+                        <Button
+                          variant="outline-quaternario "
+                          onClick={() =>
+                            setPaginaPreferiti(paginaPreferiti + 1)
+                          }
+                          className="flex-fill"
+                          href="#"
+                        >
+                          Successiva
+                        </Button>
+                      )}
+                    </Col>
+                  </Row>
+                )}
               </Tab>
-              {profile?.ruolo === "ADMIN" && (
+              {(profile?.ruolo === "ADMIN" ||
+                profile?.ruolo === "GAME_CREATOR") && (
                 <Tab
                   eventKey="Videogiochi aggiunti"
                   title="Videogiochi aggiunti"
+                  className=" bg-secondario p-3 mt-5 rounded-4 shadow"
                 >
-                  Tab content for Contact
+                  {spinner ? (
+                    <div className="d-flex justify-content-center my-5">
+                      <Spinner animation="grow" variant="quaternario" />
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <GrigliaVideogiochi
+                          listaRisultati={videogiochi?.content}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {videogiochi !== null && !spinner && (
+                    <Row className="justify-content-center mt-4 mb-5">
+                      <Col xs={6} sm={4} lg={2} className="d-flex">
+                        {!videogiochi?.first && (
+                          <Button
+                            variant="outline-quaternario"
+                            onClick={() => setPagina(pagina - 1)}
+                            className="me-4 flex-fill"
+                            href="#"
+                          >
+                            Precedente
+                          </Button>
+                        )}
+                      </Col>
+                      <Col xs={6} sm={4} lg={2} className="d-flex">
+                        {!videogiochi?.last && (
+                          <Button
+                            variant="outline-quaternario "
+                            onClick={() => setPagina(pagina + 1)}
+                            className="flex-fill"
+                            href="#"
+                          >
+                            Successiva
+                          </Button>
+                        )}
+                      </Col>
+                    </Row>
+                  )}
                 </Tab>
               )}
               <Tab eventKey="gruppi creati" title="gruppi creati">

@@ -194,3 +194,64 @@ Body {
 .input-per-modali::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
+
+//videogioco
+.card-videogioco {
+  transition: all 300ms linear;
+  height: 550px;
+  img {
+    height: 50%;
+    object-fit: contain;
+    background: linear-gradient(
+      193deg,
+      rgba(11, 22, 34, 1) 2%,
+      rgba(50, 7, 80, 1) 100%
+    );
+  }
+  .card {
+    height: 100%;
+  }
+}
+// .container-page {
+//   min-height: 48vh;
+// }
+.card-videogioco:hover {
+  transform: scale(1.1);
+}
+@media (min-width: 768px) {
+  .colonna-di-ricerca {
+    position: sticky;
+    top: 5rem;
+    height: 85vh;
+    overflow-x: auto;
+  }
+}
+.body-creaVideogioco {
+  height: 60vh;
+  overflow-x: auto;
+}
+
+.genere-trovato {
+  width: fit-content;
+  margin-right: 0;
+}
+.options-select {
+  position: absolute;
+  height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  background: $secondario;
+  max-width: 250px;
+  width: 90%;
+  border: 3px solid $quaternario;
+  span {
+    padding-inline: 10px;
+    padding: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border: 1px solid white;
+    border-inline: 0;
+  }
+}
