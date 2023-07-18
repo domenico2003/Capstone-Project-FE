@@ -8,6 +8,7 @@ const ModalAggiungiVideogioco = (props) => {
   let profile = useSelector((state) => state.profilo.me);
   const [validated, setValidated] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
+  const [modificaSuccess, setModificaSuccess] = useState(false);
   // generi da scegliere
   const [generiPresenti, setGeneriPresenti] = useState([]);
   const [generiDaMostrare, setGeneriDaMostrare] = useState([]);
@@ -43,18 +44,6 @@ const ModalAggiungiVideogioco = (props) => {
   // lista di piattaforme scelte
   const [allPiattaforme, setAllPiattaforme] = useState([]);
   const [piattaforme, setPiattaforme] = useState("");
-
-  // {
-  //     "nome": "fortnite",
-  //     "copertina": "https://esempio.com",
-  //     "descrizione": "é un gioco per esempio",
-  //     "generi": ["guerra","storia"],
-  //     "piattaforme": ["pc","xbox"],
-  //     "aziendaProprietaria": "epicGames",
-  //     "responsabileId": "c4329e74-f014-4653-a7f0-2fe1b18a5dbe",
-  //     "videoTrailer": "https://esempiovideo.com",
-  //     "dataRilascio": "2023-03-20"
-  //     }
 
   //  opzione per cercare da array di generi
   const [genereRicercato, setGenereRicercato] = useState("");
@@ -97,6 +86,8 @@ const ModalAggiungiVideogioco = (props) => {
       console.log(error);
     }
   };
+  //fetch crea/modifica videogioco
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -115,38 +106,75 @@ const ModalAggiungiVideogioco = (props) => {
       allGeneri.length > 0,
       allPiattaforme.length > 0)
     ) {
-      const URL = "http://localhost:3001/videogioco";
-      const headers = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          nome: nomeVideogioco,
-          copertina: copertina,
-          descrizione: descrizione,
-          generi: allGeneri,
-          piattaforme: allPiattaforme,
-          aziendaProprietaria: aziendaProprietaria,
-          responsabileId: profile.id,
-          videoTrailer: videoTrailer,
-          dataRilascio: dataRilascio,
-        }),
-      };
-      try {
-        let risposta = await fetch(URL, headers);
-        if (risposta.ok) {
-          let dato = await risposta.json();
-          setCreateSuccess(true);
+      if (props.videogioco === undefined) {
+        const URL = "http://localhost:3001/videogioco";
+        const headers = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            nome: nomeVideogioco,
+            copertina: copertina,
+            descrizione: descrizione,
+            generi: allGeneri,
+            piattaforme: allPiattaforme,
+            aziendaProprietaria: aziendaProprietaria,
+            responsabileId: profile.id,
+            videoTrailer: videoTrailer,
+            dataRilascio: dataRilascio,
+          }),
+        };
+        try {
+          let risposta = await fetch(URL, headers);
+          if (risposta.ok) {
+            let dato = await risposta.json();
+            setCreateSuccess(true);
 
-          setTimeout(() => {
-            setCreateSuccess(false);
-            props.onHide();
-          }, 1500);
+            setTimeout(() => {
+              setCreateSuccess(false);
+              props.onHide();
+            }, 1500);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        const URL = "http://localhost:3001/videogioco/" + props.videogioco.id;
+        const headers = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            nome: nomeVideogioco,
+            copertina: copertina,
+            descrizione: descrizione,
+            generi: allGeneri,
+            piattaforme: allPiattaforme,
+            aziendaProprietaria: aziendaProprietaria,
+            responsabileId: profile.id,
+            videoTrailer: videoTrailer,
+            dataRilascio: dataRilascio,
+          }),
+        };
+        try {
+          let risposta = await fetch(URL, headers);
+          if (risposta.ok) {
+            let dato = await risposta.json();
+            setModificaSuccess(true);
+
+            setTimeout(() => {
+              setModificaSuccess(false);
+              props.fetch();
+              props.onHide();
+            }, 1500);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
@@ -238,6 +266,41 @@ const ModalAggiungiVideogioco = (props) => {
     setPiattaformePresenti([...piattaformePresenti, item]);
     setPiattaformeDaMostrare([...piattaformeDaMostrare, item]);
   };
+  //use effect per impostare i valori alla modifica
+
+  useEffect(() => {
+    if (props.videogioco !== undefined) {
+      setNomeVideogioco(props.videogioco.nome);
+      setCopertina(props.videogioco.copertina);
+      setDescrizione(props.videogioco.descrizione);
+      setAziendaProprietaria(props.videogioco.aziendaProprietaria);
+      setVideoTrailer(props.videogioco.videoTrailer);
+      setDataRilascio(props.videogioco.dataRilascio);
+
+      props.videogioco.piattaforme.forEach((piattaforma) => {
+        let p = [];
+
+        for (const piat of props.videogioco.piattaforme) {
+          let piattaforma = piat;
+          p = [...p, piattaforma];
+        }
+
+        setAllPiattaforme(p);
+      });
+
+      if (props.videogioco.generi.length > 0) {
+        let g = [];
+
+        for (const gener of props.videogioco.generi) {
+          let generevid = gener.nome;
+          g = [...g, generevid];
+        }
+
+        setAllGeneri(g);
+      }
+    }
+  }, [props]);
+
   return (
     <>
       <Modal
@@ -463,6 +526,12 @@ const ModalAggiungiVideogioco = (props) => {
         <ModalSuccessAction
           text={"Videogioco creato con successo"}
           show={createSuccess}
+        />
+      )}
+      {modificaSuccess && (
+        <ModalSuccessAction
+          text={"Videogioco modificato con successo"}
+          show={modificaSuccess}
         />
       )}
     </>

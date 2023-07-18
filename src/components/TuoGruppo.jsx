@@ -6,12 +6,14 @@ import MembriGruppo from "./MembriGruppo";
 import Messaggistica from "./Messaggistica";
 import { useDispatch, useSelector } from "react-redux";
 import { profileFetch } from "../redux/actions";
+import ModaleResponsabile from "./ModaleResponsabile";
 
 const TuoGruppo = ({ mioGruppo }) => {
   let profile = useSelector((state) => state.profilo.me);
   const [gruppo, setGruppo] = useState(null);
   const [abbandonaShow, setAbbandonaShow] = useState(false);
   const [uniscitiShow, setUniscitiShow] = useState(false);
+  const [modaleFondatore, setModaleFondatore] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -201,6 +203,13 @@ const TuoGruppo = ({ mioGruppo }) => {
                           </Col>
                         </Row>
                       </>
+                    ) : profile.ruolo === "ADMIN" ? (
+                      <Button
+                        variant="outline-quaternario"
+                        onClick={() => setModaleFondatore(true)}
+                      >
+                        Aggiungi fondatore
+                      </Button>
                     ) : (
                       <p className="text-white-50 text-center">
                         Questo gruppo attualmente non ha un fondatore!
@@ -313,6 +322,14 @@ const TuoGruppo = ({ mioGruppo }) => {
           </p>
         </Modal.Body>
       </Modal>
+      {modaleFondatore && (
+        <ModaleResponsabile
+          show={modaleFondatore}
+          onHide={() => setModaleFondatore(false)}
+          gruppoId={gruppo?.id}
+          fetch={() => gruppiDetailsFetch()}
+        />
+      )}
     </>
   );
 };

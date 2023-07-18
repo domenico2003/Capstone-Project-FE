@@ -1,27 +1,64 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Card, Col, Container, Row, Button, Dropdown } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Container,
+  Row,
+  Button,
+  Dropdown,
+  Modal,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import NoAccessContent from "./NoAccessContent";
 import StarVideogioco from "./StarVideogioco";
 import Recensioni from "./Recensioni";
 import { IoMdSettings } from "react-icons/io";
+import ModaleResponsabile from "./ModaleResponsabile";
+import ModalAggiungiVideogioco from "./ModalAggiungiVideogioco";
+import ModalSuccessAction from "./ModalSuccessAction";
 
 const DettaglioVideogioco = () => {
   let profile = useSelector((state) => state.profilo.me);
   const navigate = useNavigate();
   const params = useParams();
   const [videogioco, setVideogioco] = useState(null);
-  const [isPreferito, setIsPreferito] = useState(false);
-
+  const [isPreferito, setIsPreferito] = useState(null);
+  const [modificaVideogioco, setModificaVideogioco] = useState(false);
   const [modaleResponsabile, setModaleResponsabile] = useState(false);
-  const eliminaVideogioco = () => {};
+  const [modaleDelete, setModaleDelete] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const eliminaVideogioco = async () => {
+    const URL = "http://localhost:3001/videogioco/" + videogioco?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        setDeleteSuccess(true);
+
+        setTimeout(() => {
+          setDeleteSuccess(false);
+          navigate("/");
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     videogiocoDetails();
   }, []);
   useEffect(() => {
-    console.log(videogioco);
+    if (videogioco !== null) {
+      isPreferitiFetch(videogioco);
+    }
   }, [videogioco]);
 
   const videogiocoDetails = async () => {
@@ -32,7 +69,6 @@ const DettaglioVideogioco = () => {
         let dato = await risposta.json();
 
         setVideogioco(dato);
-        isPreferitiFetch(dato);
       }
     } catch (error) {
       console.log(error);
@@ -61,8 +97,47 @@ const DettaglioVideogioco = () => {
     }
   };
 
-  const aggiungiAiPreferiti = async () => {};
-  const rimuoviDaiPreferiti = async () => {};
+  const aggiungiAiPreferiti = async () => {
+    const URL = "http://localhost:3001/preferiti";
+    const headers = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        utenteId: profile?.id,
+        giocoId: videogioco?.id,
+      }),
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        let dato = await risposta.json();
+
+        isPreferitiFetch(videogioco);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const rimuoviDaiPreferiti = async () => {
+    const URL = "http://localhost:3001/preferiti/" + isPreferito?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        isPreferitiFetch(videogioco);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {localStorage.getItem("token") != null ? (
@@ -81,7 +156,7 @@ const DettaglioVideogioco = () => {
                   />
                 )}
                 <div className="d-flex flex-column align-items-strech mt-2 w-custom ">
-                  {isPreferito ? (
+                  {isPreferito !== null ? (
                     <Button
                       variant="danger"
                       onClick={() => rimuoviDaiPreferiti()}
@@ -124,15 +199,16 @@ const DettaglioVideogioco = () => {
                       <Dropdown.Menu className="bg-primario border-2 border-quaternario p-0 ">
                         <div className="d-flex flex-column w-100 ">
                           <Button
-                            variant="outline-quaternario"
-                            className="mb-2 border-0 border-bottom border-quaternario border-3"
-                            onClick={() => eliminaVideogioco()}
+                            variant="outline-danger"
+                            className="mb-2 border-0 border-bottom border-danger border-3"
+                            onClick={() => setModaleDelete(true)}
                           >
                             Elimina videogioco
                           </Button>
                           <Button
                             variant="outline-quaternario"
                             className=" border-0 border-top border-quaternario border-3"
+                            onClick={() => setModificaVideogioco(true)}
                           >
                             Modifica
                           </Button>
@@ -281,6 +357,68 @@ const DettaglioVideogioco = () => {
             {" "}
             <Recensioni videogioco={videogioco} />
           </Container>
+          {modaleResponsabile && (
+            <ModaleResponsabile
+              show={modaleResponsabile}
+              onHide={() => setModaleResponsabile(false)}
+              giocoId={videogioco?.id}
+              fetch={() => videogiocoDetails()}
+            />
+          )}
+          {modificaVideogioco && (
+            <ModalAggiungiVideogioco
+              show={modificaVideogioco}
+              onHide={() => setModificaVideogioco(false)}
+              videogioco={videogioco}
+              fetch={() => videogiocoDetails()}
+            />
+          )}
+          {modaleDelete && (
+            <Modal
+              size="md"
+              show={modaleDelete}
+              onHide={() => setModaleDelete(false)}
+              aria-labelledby="example-modal-sizes-title-sm"
+              className="text-bianco"
+            >
+              <Modal.Header closeButton className="bg-secondario">
+                <Modal.Title id="example-modal-sizes-title-sm">
+                  Elimina recensione
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
+                <p className="text-center">
+                  Sicuro di voler eliminare la recensione?
+                </p>
+                <div>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="ms-4"
+                    onClick={() => {
+                      eliminaVideogioco();
+                    }}
+                  >
+                    Elimina
+                  </Button>
+                  <Button
+                    variant="outline-quaternario"
+                    size="sm"
+                    className="ms-4"
+                    onClick={() => modaleDelete(false)}
+                  >
+                    Chiudi
+                  </Button>
+                </div>
+              </Modal.Body>
+            </Modal>
+          )}
+          {deleteSuccess && (
+            <ModalSuccessAction
+              text={"Videogioco eliminato con successo"}
+              show={deleteSuccess}
+            />
+          )}
         </Container>
       ) : (
         <NoAccessContent />

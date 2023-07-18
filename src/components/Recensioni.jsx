@@ -13,16 +13,20 @@ const Recensioni = ({ videogioco }) => {
   const [spinner, setSpinner] = useState(false);
   const [recensioneModale, setRecensioneModale] = useState(false);
   useEffect(() => {
-    recensioniFetch();
+    if (videogioco !== null) {
+      recensioniFetch();
+    }
   }, [pagina]);
   useEffect(() => {
-    recensioniFetch();
+    if (videogioco !== null) {
+      recensioniFetch();
+    }
   }, [videogioco]);
   const recensioniFetch = async () => {
     setSpinner(true);
     const URL =
       "http://localhost:3001/recensione?giocoId=" +
-      videogioco?.id +
+      videogioco.id +
       "&page=" +
       pagina;
     const headers = {
@@ -35,7 +39,7 @@ const Recensioni = ({ videogioco }) => {
       let risposta = await fetch(URL, headers);
       if (risposta.ok) {
         let dato = await risposta.json();
-        console.log(dato);
+
         setRecensioni(dato);
       }
     } catch (error) {
@@ -51,7 +55,9 @@ const Recensioni = ({ videogioco }) => {
       <Row xs={1} md={2} className="justify-content-center ">
         <Col xs={10} md={6} className="bg-secondario mt-5 p-4">
           <div className="mb-4 bg-terziario p-4 shadow">
-            <p className="h5 ">Scrivi una recensione!</p>
+            <p className="h5 " id="h5">
+              Scrivi una recensione!
+            </p>
             <div
               onClick={() => {
                 setRecensioneModale(true);
@@ -96,7 +102,6 @@ const Recensioni = ({ videogioco }) => {
                     variant="outline-quaternario"
                     onClick={() => setPagina(pagina - 1)}
                     className="me-4 flex-fill"
-                    href="#"
                   >
                     Precedente
                   </Button>
@@ -108,7 +113,6 @@ const Recensioni = ({ videogioco }) => {
                     variant="outline-quaternario "
                     onClick={() => setPagina(pagina + 1)}
                     className="flex-fill"
-                    href="#"
                   >
                     Successiva
                   </Button>

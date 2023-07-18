@@ -3,6 +3,7 @@ import {
   Col,
   Container,
   Dropdown,
+  Modal,
   Row,
   Spinner,
   Tab,
@@ -18,6 +19,8 @@ import TuoGruppo from "./TuoGruppo";
 import TuoiPost from "./TuoiPost";
 import { useState } from "react";
 import GrigliaVideogiochi from "./GrigliaVideogiochi";
+import ModalSuccessAction from "./ModalSuccessAction";
+import ModalModificaAccount from "./ModalModificaAccount";
 
 const MyAccount = () => {
   const navigate = useNavigate();
@@ -31,10 +34,37 @@ const MyAccount = () => {
   const [spinnerPreferiti, setSpinnerPreferiti] = useState(false);
   const [isLastPreferitiPage, setIsLastPreferitiPage] = useState(false);
   const [isFirstPreferitiPage, setIsFirstPreferitiPage] = useState(false);
+  const [modificaModale, setModificaModale] = useState(false);
+  const [eliminaModale, setEliminaModale] = useState(false);
+  const [eliminaSuccess, setEliminaSuccess] = useState(false);
+
   const handleLogout = () => {
     localStorage.clear();
     dispatch(setProfileAction(null));
     navigate("/login");
+  };
+
+  const handleEliminaAccountClick = async () => {
+    const URL = "http://localhost:3001/utente/" + profile?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        setEliminaSuccess(true);
+
+        setTimeout(() => {
+          setEliminaSuccess(false);
+          handleLogout();
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -151,9 +181,17 @@ const MyAccount = () => {
                           </Button>
                           <Button
                             variant="outline-quaternario"
-                            className=" border-0 border-top border-quaternario border-3"
+                            className=" border-0 border-top mb-2 border-bottom border-quaternario border-3"
+                            onClick={() => setModificaModale(true)}
                           >
                             Modifica
+                          </Button>
+                          <Button
+                            variant="outline-danger"
+                            className=" border-0 border-top border-quaternario border-3"
+                            onClick={() => setEliminaModale(true)}
+                          >
+                            Elimina account
                           </Button>
                         </div>
                       </Dropdown.Menu>
@@ -302,6 +340,57 @@ const MyAccount = () => {
           </div>
         )}
       </Container>
+      {eliminaModale && (
+        <Modal
+          size="md"
+          show={eliminaModale}
+          onHide={() => setEliminaModale(false)}
+          aria-labelledby="example-modal-sizes-title-sm"
+          className="text-bianco"
+        >
+          <Modal.Header closeButton className="bg-secondario">
+            <Modal.Title id="example-modal-sizes-title-sm">
+              Elimina Account
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
+            <p className="text-center">Sicuro di voler eliminare l'account?</p>
+            <div>
+              <Button
+                variant="danger"
+                size="sm"
+                className="ms-4"
+                onClick={() => {
+                  handleEliminaAccountClick();
+                }}
+              >
+                Elimina
+              </Button>
+              <Button
+                variant="outline-quaternario"
+                size="sm"
+                className="ms-4"
+                onClick={() => eliminaModale(false)}
+              >
+                Chiudi
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {eliminaSuccess && (
+        <ModalSuccessAction
+          text={"Account eliminato con successo"}
+          show={eliminaSuccess}
+        />
+      )}
+
+      {modificaModale && (
+        <ModalModificaAccount
+          show={modificaModale}
+          onHide={() => setModificaModale(false)}
+        />
+      )}
     </>
   );
 };
