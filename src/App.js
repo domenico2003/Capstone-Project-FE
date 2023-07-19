@@ -10,6 +10,7 @@ import TuoGruppo from "./components/TuoGruppo";
 import ProfiloDettaglio from "./components/ProfiloDettaglio";
 import Videogiochi from "./components/Videogiochi";
 import DettaglioVideogioco from "./components/DettaglioVideogioco";
+import AdminPage from "./components/AdminPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <MyNavbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/videogiochi" element={<Videogiochi />} />
         <Route path="/login" element={<Login />} />
         <Route path="/me" element={<MyAccount />} />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SinglePost from "./SinglePost";
 
 const TuoiPost = ({ utente }) => {
@@ -21,11 +21,14 @@ const TuoiPost = ({ utente }) => {
   useEffect(() => {
     utentePostFetch();
   }, [profilo]);
+
   useEffect(() => {
     if (location.pathname === "/me") {
       setProfilo(profile);
     } else {
       setProfilo(utente);
+
+      utentePostFetch();
     }
   }, [location.pathname]);
 
@@ -33,7 +36,7 @@ const TuoiPost = ({ utente }) => {
     if (profilo !== null) {
       setSpinner(true);
       const URL =
-        "http://localhost:3001/post?userId=" + profilo.id + "&page=" + pagina;
+        "http://localhost:3001/post?userId=" + profilo?.id + "&page=" + pagina;
       const headers = {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),

@@ -21,10 +21,12 @@ const TuoGruppo = ({ mioGruppo }) => {
   useEffect(() => {
     if (location.pathname === "/me") {
       setGruppo(mioGruppo);
+    } else if (mioGruppo !== undefined) {
+      setGruppo(mioGruppo);
     } else {
       gruppiDetailsFetch();
     }
-  }, [profile]);
+  }, [profile, mioGruppo]);
 
   const handleAbbandonaClick = () => {
     abbandonaGruppiFetch();
@@ -76,21 +78,23 @@ const TuoGruppo = ({ mioGruppo }) => {
   };
 
   const gruppiDetailsFetch = async () => {
-    const URL = "http://localhost:3001/gruppo/" + params.id;
-    const headers = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    };
-    try {
-      let risposta = await fetch(URL, headers);
-      if (risposta.ok) {
-        let dato = await risposta.json();
+    if (location.pathname.split("/")[1] !== "profilo") {
+      const URL = "http://localhost:3001/gruppo/" + params.id;
+      const headers = {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      };
+      try {
+        let risposta = await fetch(URL, headers);
+        if (risposta.ok) {
+          let dato = await risposta.json();
 
-        setGruppo(dato);
+          setGruppo(dato);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -104,10 +108,13 @@ const TuoGruppo = ({ mioGruppo }) => {
                 src={gruppo?.immagineGruppo}
                 alt={gruppo?.nome}
                 className={`img-fluid gruppoImmagine  ${
-                  location.pathname === "/me" && "pointer"
+                  (location.pathname === "/me" ||
+                    location.pathname.split("/")[1] === "profilo") &&
+                  "pointer"
                 }`}
                 onClick={() =>
-                  location.pathname === "/me" &&
+                  (location.pathname === "/me" ||
+                    location.pathname.split("/")[1] === "profilo") &&
                   navigate("/gruppi/" + gruppo?.id)
                 }
               />
@@ -121,10 +128,13 @@ const TuoGruppo = ({ mioGruppo }) => {
                 <div className="d-flex align-items-center justify-content-center">
                   <p
                     className={`text-center text-bianco h2 fw-bold mt-3 mt-md-0 ${
-                      location.pathname === "/me" && "pointer"
+                      (location.pathname === "/me" ||
+                        location.pathname.split("/")[1] === "profilo") &&
+                      "pointer"
                     }`}
                     onClick={() =>
-                      location.pathname === "/me" &&
+                      (location.pathname === "/me" ||
+                        location.pathname.split("/")[1] === "profilo") &&
                       navigate("/gruppi/" + gruppo?.id)
                     }
                   >
@@ -243,7 +253,7 @@ const TuoGruppo = ({ mioGruppo }) => {
             </Col>
           </Row>
 
-          {location.pathname !== "/me" && (
+          {location.pathname !== "/me" && mioGruppo === undefined && (
             <Tabs
               defaultActiveKey="profile"
               id="fill-tab-example"

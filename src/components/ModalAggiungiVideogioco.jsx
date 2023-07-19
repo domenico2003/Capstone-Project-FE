@@ -335,6 +335,9 @@ const ModalAggiungiVideogioco = (props) => {
               </Form.Control.Feedback>
             </Form.Group>
             {/* ############################ selezione generi */}
+            <div>
+              <p className="mb-1">Generi </p>
+            </div>
             {/* Input di testo per generi */}
             {allGeneri.map((item, index) => (
               <Badge
@@ -386,6 +389,9 @@ const ModalAggiungiVideogioco = (props) => {
             </Row>
             {/* ############################ fine selezione generi */}
             {/* ############################ selezione piattaforme */}
+            <div>
+              <p className="mb-1">Piattaforme </p>
+            </div>
             {allPiattaforme.map((item, index) => (
               <Badge
                 key={index}
@@ -513,7 +519,7 @@ const ModalAggiungiVideogioco = (props) => {
             </Form.Group>
             <div className=" d-flex justify-content-evenly">
               <Button variant="success" type="submit">
-                Crea
+                {props.videogioco !== undefined ? "Modifica" : "Crea"}
               </Button>
               <Button variant="outline-quaternario" onClick={props.onHide}>
                 Close

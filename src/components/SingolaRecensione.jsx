@@ -97,7 +97,7 @@ const SingolaRecensione = ({ recensione, recensionefetch, giocoid }) => {
                   />
                 }
               </p>
-              <p className="m-0  text-white-50 fw-bold ">
+              <p className="m-0  text-white-50 fw-bold text-break">
                 {recensione?.descrizione}
               </p>
             </div>

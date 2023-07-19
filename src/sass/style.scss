@@ -288,6 +288,9 @@ Body {
   .w-custom {
     width: 45%;
   }
+  .w-custom-2 {
+    width: 80%;
+  }
 }
 @media (min-width: 768px) {
   .w-custom {
@@ -297,15 +300,24 @@ Body {
     position: relative;
     top: 40%;
   }
+  .w-custom-2 {
+    width: 100%;
+  }
 }
 
 @media (min-width: 992px) {
   .w-custom {
     width: 80%;
   }
+  .w-custom-2 {
+    width: 80%;
+  }
 }
 @media (min-width: 1200px) {
   .w-custom {
+    width: 67%;
+  }
+  .w-custom-2 {
     width: 67%;
   }
 }

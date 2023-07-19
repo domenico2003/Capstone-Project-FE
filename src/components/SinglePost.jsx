@@ -410,7 +410,7 @@ const SinglePost = ({ post, idGruppo, gruppopostfetch }) => {
                         </div>
 
                         <div>
-                          <p className="m-0  text-white-50 fw-bold ">
+                          <p className="m-0  text-white-50 fw-bold text-break">
                             {comm?.testo}
                           </p>
                         </div>

@@ -77,7 +77,7 @@ const Footer = () => {
                     >
                       Videogiochi
                     </Link>
-                    <Link
+                    {/* <Link
                       className={`nav-link ${
                         location.pathname === "/utenti"
                           ? "text-quaternario fw-bold"
@@ -86,7 +86,7 @@ const Footer = () => {
                       to={"/utenti"}
                     >
                       Utenti
-                    </Link>
+                    </Link> */}
                     <Link
                       className={`nav-link ${
                         location.pathname === "/gruppi"

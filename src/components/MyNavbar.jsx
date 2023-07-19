@@ -39,14 +39,14 @@ const MyNavbar = () => {
             >
               Videogiochi
             </Link>
-            <Link
+            {/* <Link
               className={`nav-link ${
                 location.pathname === "/utenti" ? "text-bianco fw-bold" : ""
               }`}
               to={"/utenti"}
             >
               Utenti
-            </Link>
+            </Link> */}
             <Link
               className={`nav-link ${
                 location.pathname === "/gruppi" ? "text-bianco fw-bold" : ""
