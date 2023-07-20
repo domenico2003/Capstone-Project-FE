@@ -56,7 +56,7 @@ const MyNavbar = () => {
                   : ""
               }`}
               to={
-                profile?.gruppo === null
+                profile?.gruppo === null || profile?.gruppo === undefined
                   ? "/gruppi"
                   : "/gruppi/" + profile?.gruppo?.id
               }

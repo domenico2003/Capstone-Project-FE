@@ -20,9 +20,6 @@ function HomePage() {
   let gruppi = useSelector((state) => state.home.gruppi.content);
   const navigate = useNavigate();
   useEffect(() => {
-    if (localStorage.getItem("token") != null) {
-      dispatch(profileFetch());
-    }
     if (videogiochi.length === 0) {
       dispatch(videogiochiHomeFetch());
     }
@@ -150,7 +147,13 @@ function HomePage() {
           </p>
           <p
             className=" text-white-50 pointer m-0 d-none d-sm-flex align-items-center"
-            onClick={() => navigate("/gruppi")}
+            onClick={() =>
+              navigate(
+                profile?.gruppo === null || profile?.gruppo === undefined
+                  ? "/gruppi"
+                  : "/gruppi/" + profile?.gruppo?.id
+              )
+            }
           >
             Vedi più{" "}
             <span className="text-quaternario ms-2">

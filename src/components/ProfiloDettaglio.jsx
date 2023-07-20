@@ -78,7 +78,15 @@ const ProfiloDettaglio = () => {
               fill
             >
               <Tab eventKey="gruppo" title="Gruppo">
-                <TuoGruppo mioGruppo={profile?.gruppo} />
+                {profile?.gruppo !== null ? (
+                  <TuoGruppo mioGruppo={profile?.gruppo} />
+                ) : (
+                  <div className="d-flex flex-column align-items-center text-bianco mt-4">
+                    <p className="m-0 fw-bold h4 text-center">
+                      attualmente questo utente non fa parte di nessun gruppo
+                    </p>
+                  </div>
+                )}
               </Tab>
               <Tab eventKey="PostPublicati" title="Post publicati">
                 {profile !== null && <TuoiPost utente={profile} />}

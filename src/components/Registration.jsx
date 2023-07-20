@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Button, Col, Container, Row, Form, Spinner } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { profileFetch } from "../redux/actions";
 
 const Registration = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [spinnerStatus, setSpinnerStatus] = useState(false);
   const [emailInserita, setEmailInserita] = useState("");
   const [passwordInserita, setPasswordInserita] = useState("");
@@ -71,10 +74,10 @@ const Registration = () => {
       if (risposta.ok) {
         let dato = await risposta.json();
         localStorage.setItem("token", dato.token);
-
+        dispatch(profileFetch());
         setTimeout(() => {
           navigate("/");
-        }, 2500);
+        }, 2000);
       }
     } catch (error) {
       console.log(error);

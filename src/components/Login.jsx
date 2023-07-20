@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { profileFetch } from "../redux/actions";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
   const [emailInserita, setEmailInserita] = useState("");
   const [passwordInserita, setPasswordInserita] = useState("");
@@ -33,6 +36,7 @@ const Login = () => {
         if (risposta.ok) {
           let dato = await risposta.json();
           localStorage.setItem("token", dato.token);
+          dispatch(profileFetch());
           navigate("/");
         }
       } catch (error) {

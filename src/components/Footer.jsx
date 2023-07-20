@@ -95,7 +95,8 @@ const Footer = () => {
                           : ""
                       }`}
                       to={
-                        profile?.gruppo === null
+                        profile?.gruppo === null ||
+                        profile?.gruppo === undefined
                           ? "/gruppi"
                           : "/gruppi/" + profile?.gruppo?.id
                       }
@@ -121,7 +122,9 @@ const Footer = () => {
                     created By Domenico Dattilo{" "}
                     <a
                       className="text-quaternario"
-                      href="www.linkedin.com/in/domenico-dattilo"
+                      href="https://www.linkedin.com/in/domenico-dattilo/"
+                      target="_blank"
+                      rel="noreferrer"
                     >
                       <ImLinkedin />
                     </a>
@@ -129,6 +132,8 @@ const Footer = () => {
                     <a
                       className="text-quaternario"
                       href="https://github.com/domenico2003"
+                      target="_blank"
+                      rel="noreferrer"
                     >
                       {" "}
                       <ImGithub />
