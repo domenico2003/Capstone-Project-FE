@@ -109,15 +109,15 @@ const ModalModificaAccount = (props) => {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>
-                Inserisci immagine profilo {"(MAX: 600 caratteri)"}
+                Inserisci immagine profilo {"(MAX: 6000 caratteri)"}
               </Form.Label>
               <Form.Control
                 className="input-per-modali"
                 type="text"
-                placeholder="Inserisci immagine profilo"
+                placeholder="https://esempioImmagine.com"
                 value={immagineInserita}
                 onChange={(e) => setImmagineInserita(e.target.value)}
-                max={600}
+                max={6000}
                 required={true}
               />
               <Form.Control.Feedback type="invalid">

@@ -16,11 +16,13 @@ const Messaggistica = ({ idGruppo }) => {
   useEffect(() => {
     gruppoPostFetch();
   }, [pagina]);
-
+  useEffect(() => {
+    gruppoPostFetch();
+  }, [idGruppo]);
   const gruppoPostFetch = async () => {
     setSpinner(true);
     const URL =
-      "http://localhost:3001/post?idGruppo=" + idGruppo + "&page=" + pagina;
+      "http://localhost:3001/post?gruppoId=" + idGruppo + "&page=" + pagina;
     const headers = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

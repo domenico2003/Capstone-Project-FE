@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Badge, Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Badge, Button, Form, Modal, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ModalSuccessAction from "./ModalSuccessAction";
 
@@ -445,15 +445,15 @@ const ModalAggiungiVideogioco = (props) => {
             {/* ############################ fine selezione piattaforme */}
             <Form.Group className="mb-3" controlId="copertina">
               <Form.Label>
-                Immagine di copertina {"(MAX 600 caratteri)"}
+                Immagine di copertina {"(MAX 6000 caratteri)"}
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Inserisci l'immagine di copertina"
+                placeholder="https://esempioImmagine.com"
                 value={copertina}
                 onChange={(e) => setCopertina(e.target.value)}
                 className="input-per-modali"
-                maxLength={600}
+                maxLength={6000}
                 required={true}
               />
               <Form.Control.Feedback type="invalid">

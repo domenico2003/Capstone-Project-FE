@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Modal, Row, Tab, Tabs } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Dropdown,
+  Modal,
+  Row,
+  Spinner,
+  Tab,
+  Tabs,
+} from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NoAccessContent from "./NoAccessContent";
 import MembriGruppo from "./MembriGruppo";
@@ -7,13 +16,20 @@ import Messaggistica from "./Messaggistica";
 import { useDispatch, useSelector } from "react-redux";
 import { profileFetch } from "../redux/actions";
 import ModaleResponsabile from "./ModaleResponsabile";
-
+import { IoMdSettings } from "react-icons/io";
+import ModalGruppo from "./ModalGruppo";
+import ModalSuccessAction from "./ModalSuccessAction";
 const TuoGruppo = ({ mioGruppo }) => {
   let profile = useSelector((state) => state.profilo.me);
+
   const [gruppo, setGruppo] = useState(null);
   const [abbandonaShow, setAbbandonaShow] = useState(false);
   const [uniscitiShow, setUniscitiShow] = useState(false);
   const [modaleFondatore, setModaleFondatore] = useState(false);
+
+  const [modificaModale, setModificaModale] = useState(false);
+  const [eliminaModale, setEliminaModale] = useState(false);
+  const [eliminaModaleSuccess, setEliminaModaleSuccess] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -70,6 +86,7 @@ const TuoGruppo = ({ mioGruppo }) => {
       let risposta = await fetch(URL, headers);
       if (risposta.ok) {
         let dato = await risposta.json();
+        navigate("/gruppi");
         dispatch(profileFetch());
       }
     } catch (error) {
@@ -98,6 +115,29 @@ const TuoGruppo = ({ mioGruppo }) => {
     }
   };
 
+  const handleEliminaGruppoClick = async () => {
+    const URL = "http://localhost:3001/gruppo/" + gruppo?.id;
+    const headers = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        setEliminaModaleSuccess(true);
+
+        setTimeout(() => {
+          setEliminaModaleSuccess(false);
+          dispatch(profileFetch());
+          navigate("/gruppi");
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {gruppo != null && (
@@ -160,6 +200,37 @@ const TuoGruppo = ({ mioGruppo }) => {
                       Unisciti!
                     </Button>
                   )}
+                  {gruppo?.fondatore !== null &&
+                    gruppo?.fondatore?.id === profile?.id && (
+                      <Dropdown className="d-flex justify-content-end">
+                        <Dropdown.Toggle
+                          drop={"down-centered"}
+                          className={`text-white-50  border-0 clicked`}
+                          id="dropdown-basic"
+                        >
+                          <IoMdSettings className="h3 m-0" />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="bg-primario border-2 border-quaternario p-0 ">
+                          <div className="d-flex flex-column w-100 ">
+                            <Button
+                              variant="outline-quaternario"
+                              className=" border-0 border-top mb-2 border-bottom border-quaternario border-3"
+                              onClick={() => setModificaModale(true)}
+                            >
+                              Modifica
+                            </Button>
+                            <Button
+                              variant="outline-danger"
+                              className=" border-0 border-top border-quaternario border-3"
+                              onClick={() => setEliminaModale(true)}
+                            >
+                              Elimina Gruppo
+                            </Button>
+                          </div>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    )}
                 </div>
                 <hr className="border-3 opacity-none border-quaternario mb-0" />
               </div>
@@ -255,13 +326,13 @@ const TuoGruppo = ({ mioGruppo }) => {
 
           {location.pathname !== "/me" && mioGruppo === undefined && (
             <Tabs
-              defaultActiveKey="profile"
+              defaultActiveKey="Post"
               id="fill-tab-example"
-              className="mb-3 mt-4 border-0"
+              className="mb-3 mt-4 border-0 show"
               fill
             >
               <Tab eventKey="Post" title="Post">
-                <Messaggistica idGruppo={gruppo?.id} />
+                <Messaggistica idGruppo={params.id} />
               </Tab>
               <Tab eventKey="Membri" title="Membri">
                 <MembriGruppo idGruppo={gruppo?.id} />
@@ -271,17 +342,14 @@ const TuoGruppo = ({ mioGruppo }) => {
         </div>
       )}
 
-      {gruppo === null &&
-        (location.pathname !== "/me" ? (
-          <NoAccessContent />
-        ) : (
-          <div className="d-flex flex-column align-items-center text-bianco">
-            <p className="m-0 fw-bold display-4">⚠️ATTENZIONE⚠️</p>
-            <p className="m-0 fw-bold h4 text-center">
-              attualmente non fai parte di nessun gruppo
-            </p>
-          </div>
-        ))}
+      {gruppo === null && location.pathname === "/me" && profile !== null && (
+        <div className="d-flex flex-column align-items-center text-bianco">
+          <p className="m-0 fw-bold display-4">⚠️ATTENZIONE⚠️</p>
+          <p className="m-0 fw-bold h4 text-center">
+            attualmente non fai parte di nessun gruppo
+          </p>
+        </div>
+      )}
       <Modal
         size="md"
         show={abbandonaShow}
@@ -338,6 +406,59 @@ const TuoGruppo = ({ mioGruppo }) => {
           onHide={() => setModaleFondatore(false)}
           gruppoId={gruppo?.id}
           fetch={() => gruppiDetailsFetch()}
+        />
+      )}
+      {eliminaModale && (
+        <Modal
+          size="md"
+          show={eliminaModale}
+          onHide={() => setEliminaModale(false)}
+          aria-labelledby="example-modal-sizes-title-sm"
+          className="text-bianco"
+        >
+          <Modal.Header closeButton className="bg-secondario">
+            <Modal.Title id="example-modal-sizes-title-sm">
+              Elimina Gruppo
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
+            <p className="text-center">Sicuro di voler eliminare il gruppo?</p>
+            <div>
+              <Button
+                variant="danger"
+                size="sm"
+                className="ms-4"
+                onClick={() => {
+                  handleEliminaGruppoClick();
+                }}
+              >
+                Elimina
+              </Button>
+              <Button
+                variant="outline-quaternario"
+                size="sm"
+                className="ms-4"
+                onClick={() => eliminaModale(false)}
+              >
+                Chiudi
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {eliminaModaleSuccess && (
+        <ModalSuccessAction
+          text={"Gruppo eliminato con successo"}
+          show={eliminaModaleSuccess}
+        />
+      )}
+
+      {modificaModale && (
+        <ModalGruppo
+          gruppo={gruppo}
+          fetch={() => gruppiDetailsFetch()}
+          show={modificaModale}
+          onHide={() => setModificaModale(false)}
         />
       )}
     </>

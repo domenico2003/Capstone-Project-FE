@@ -1,9 +1,10 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const MyNavbar = () => {
   let profile = useSelector((state) => state.profilo.me);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,9 +50,16 @@ const MyNavbar = () => {
             </Link> */}
             <Link
               className={`nav-link ${
-                location.pathname === "/gruppi" ? "text-bianco fw-bold" : ""
+                location.pathname === "/gruppi" ||
+                location.pathname === "/gruppi/" + profile?.gruppo?.id
+                  ? "text-bianco fw-bold"
+                  : ""
               }`}
-              to={"/gruppi"}
+              to={
+                profile?.gruppo === null
+                  ? "/gruppi"
+                  : "/gruppi/" + profile?.gruppo?.id
+              }
             >
               Gruppi
             </Link>

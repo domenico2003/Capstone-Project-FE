@@ -11,6 +11,7 @@ import ProfiloDettaglio from "./components/ProfiloDettaglio";
 import Videogiochi from "./components/Videogiochi";
 import DettaglioVideogioco from "./components/DettaglioVideogioco";
 import AdminPage from "./components/AdminPage";
+import GruppoPage from "./components/GruppoPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <MyNavbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/gruppi" element={<GruppoPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/videogiochi" element={<Videogiochi />} />
         <Route path="/login" element={<Login />} />

@@ -21,6 +21,7 @@ import { useState } from "react";
 import GrigliaVideogiochi from "./GrigliaVideogiochi";
 import ModalSuccessAction from "./ModalSuccessAction";
 import ModalModificaAccount from "./ModalModificaAccount";
+import GrigliaGruppi from "./GrigliaGruppi";
 
 const MyAccount = () => {
   const navigate = useNavigate();
@@ -37,6 +38,9 @@ const MyAccount = () => {
   const [modificaModale, setModificaModale] = useState(false);
   const [eliminaModale, setEliminaModale] = useState(false);
   const [eliminaSuccess, setEliminaSuccess] = useState(false);
+  const [gruppi, setGruppi] = useState(null);
+  const [paginaGruppi, setPaginaGruppi] = useState(0);
+  const [spinnerGruppi, setSpinnerGruppi] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -70,9 +74,14 @@ const MyAccount = () => {
   useEffect(() => {
     videogiochiFetch();
   }, [pagina]);
+
   useEffect(() => {
     videogiochiPreferitiFetch();
   }, [paginaPreferiti]);
+
+  useEffect(() => {
+    gruppiCreatiFetch();
+  }, [paginaGruppi]);
 
   const videogiochiFetch = async () => {
     setSpinner(true);
@@ -136,6 +145,37 @@ const MyAccount = () => {
     } finally {
       setTimeout(() => {
         setSpinnerPreferiti(false);
+      }, 1500);
+    }
+  };
+
+  //fetch gruppi creati da me
+  const gruppiCreatiFetch = async () => {
+    setSpinnerGruppi(true);
+    const URL =
+      "http://localhost:3001/gruppo?size=20&page=" +
+      paginaGruppi +
+      "&idFondatore=" +
+      profile?.id;
+
+    const headers = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+
+    try {
+      let risposta = await fetch(URL, headers);
+      if (risposta.ok) {
+        let dato = await risposta.json();
+
+        setGruppi(dato);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setSpinnerGruppi(false);
       }, 1500);
     }
   };
@@ -211,7 +251,7 @@ const MyAccount = () => {
             </Row>
             <hr className="border-3 opacity-none border-quaternario mb-0" />
             <Tabs
-              defaultActiveKey="profile"
+              defaultActiveKey="il tuo gruppo"
               id="fill-tab-example"
               className="mb-3 border-0"
               fill
@@ -330,7 +370,48 @@ const MyAccount = () => {
                 </Tab>
               )}
               <Tab eventKey="gruppi creati" title="gruppi creati">
-                Tab content for Contact
+                {spinnerGruppi ? (
+                  <div className="d-flex justify-content-center mt-5">
+                    <Spinner animation="grow" variant="quaternario" />
+                  </div>
+                ) : (
+                  <>
+                    <GrigliaGruppi listaRisultati={gruppi?.content} />
+                  </>
+                )}
+                {gruppi?.content.length < 1 && !spinnerGruppi && (
+                  <p className="text-center display-6 mt-5 fw-bold text-bianco">
+                    Nessun gruppo creato
+                  </p>
+                )}
+                {gruppi !== null && !spinnerGruppi && (
+                  <Row className="justify-content-center mt-4 mb-5">
+                    <Col xs={6} sm={4} lg={2} className="d-flex">
+                      {!gruppi?.first && (
+                        <Button
+                          variant="outline-quaternario"
+                          onClick={() => setPaginaGruppi(pagina - 1)}
+                          className="me-4 flex-fill"
+                          href="#"
+                        >
+                          Precedente
+                        </Button>
+                      )}
+                    </Col>
+                    <Col xs={6} sm={4} lg={2} className="d-flex">
+                      {!gruppi?.last && (
+                        <Button
+                          variant="outline-quaternario "
+                          onClick={() => setPaginaGruppi(pagina + 1)}
+                          className="flex-fill"
+                          href="#"
+                        >
+                          Successiva
+                        </Button>
+                      )}
+                    </Col>
+                  </Row>
+                )}
               </Tab>
             </Tabs>
           </>

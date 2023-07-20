@@ -110,9 +110,9 @@ const Videogiochi = () => {
     }
   };
   return (
-    <Container className="mt-5 container-page rounded-4 shadow">
+    <Container className="mt-5 ">
       {localStorage.getItem("token") != null ? (
-        <Row className="justify-content-center">
+        <Row className="justify-content-center container-page rounded-4 shadow">
           <Col
             xs={10}
             md={3}

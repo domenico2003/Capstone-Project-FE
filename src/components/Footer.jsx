@@ -34,7 +34,7 @@ const Footer = () => {
         <div
           className={
             !stiky
-              ? `bg-terziario text-white-50 footer mt-5 py-5 `
+              ? `stiky-bottom bg-terziario text-white-50 footer mt-5 py-5 `
               : "fixed-bottom bg-terziario text-white-50 footer mt-5 py-5"
           }
         >
@@ -89,11 +89,16 @@ const Footer = () => {
                     </Link> */}
                     <Link
                       className={`nav-link ${
-                        location.pathname === "/gruppi"
+                        location.pathname === "/gruppi" ||
+                        location.pathname === "/gruppi/" + profile?.gruppo?.id
                           ? "text-quaternario fw-bold"
                           : ""
                       }`}
-                      to={"/gruppi"}
+                      to={
+                        profile?.gruppo === null
+                          ? "/gruppi"
+                          : "/gruppi/" + profile?.gruppo?.id
+                      }
                     >
                       Gruppi
                     </Link>

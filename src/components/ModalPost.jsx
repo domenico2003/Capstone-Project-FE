@@ -131,7 +131,7 @@ const ModalPost = (props) => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>
-                Inserisci un immagine {"(MAX: 600 caratteri)"}
+                Inserisci un immagine {"(MAX: 6000 caratteri)"}
               </Form.Label>
               <Form.Control
                 type="text"
@@ -139,7 +139,7 @@ const ModalPost = (props) => {
                 onChange={(e) => setImg(e.target.value)}
                 placeholder="indirizzo dell'immagine Es: https://esempioImmagine.img "
                 className="input-per-modali "
-                maxLength={600}
+                maxLength={6000}
               />
             </Form.Group>
 

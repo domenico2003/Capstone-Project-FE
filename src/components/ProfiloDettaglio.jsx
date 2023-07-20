@@ -72,7 +72,7 @@ const ProfiloDettaglio = () => {
             </Row>
             <hr className="border-3 opacity-none border-quaternario mb-0" />
             <Tabs
-              defaultActiveKey="profile"
+              defaultActiveKey="gruppo"
               id="fill-tab-example"
               className="mb-3 border-0"
               fill

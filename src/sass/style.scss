@@ -1,6 +1,7 @@
 @import "_myBootstrap.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
 Body {
   background-color: $primario;
   overflow-x: hidden;
@@ -54,6 +55,11 @@ Body {
   font-family: "VT323", monospace;
   letter-spacing: 3px;
   //font-size: 3rem;
+  text-shadow: $text-shadow-logo;
+}
+
+.shadow-text {
+  // letter-spacing: 3px;
   text-shadow: $text-shadow-logo;
 }
 
