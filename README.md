@@ -26,7 +26,7 @@ Le **tecnologie** utilizzate per questo progetto sono:
 1.  **postgreSQL** 
 ## Caratteristiche progetto
 
-le diverse sezioni di **gamerHUB**  verranno elencate di seguito:
+Le diverse sezioni di **gamerHUB**  verranno elencate di seguito:
 
  1. **HomePage**🏠 :
  Questa pagina  verrà visualizzata indipendentemente dal login  e verranno mostrati alcuni videogiochi con valutazione 4+  e se viene fatto il login anche alcuni gruppi .
