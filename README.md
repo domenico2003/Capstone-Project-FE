@@ -1,4 +1,4 @@
-# Coapstone-Project
+# gamerHUB
 
 ## **presentazione progetto**
 
@@ -11,9 +11,9 @@ di seguito verranno elencati le parti principali del progetto
  1. consigliati:
  dove verranno elencati i giochi con valutazioni 4/5 stelle 
  2. ricerca:
- si possono ricercare i giochi filtrandoli
- 3. community :
-  dove  è possibile creare una propria community  o unirsi a una già esistente per pubblicare post e  leggere quelli degli altri
+ si possono ricercare i giochi e i gruppi filtrandoli
+ 3. gruppi :
+  dove  è possibile creare un proprio gruppo o unirsi a uno già esistente per pubblicare post e  leggere quelli degli altri
   4. ogni gioco può :
     - essere recensito con una valutazione e un commento
     - essere aggiunto alla categoria preferiti
@@ -22,3 +22,5 @@ di seguito verranno elencati le parti principali del progetto
 ## Obiettivo del progetto
 
 l'obiettivo del progetto è quello di trovare un gioco che segua gli standard dell'utente e permettere a quest'ultimo di trovare altre persone con cui condividere le proprie esperienze sui videogiochi e fare amicizia
+# back-end
+visita la repository del back-end https://github.com/domenico2003/Capstone-Project-BE
