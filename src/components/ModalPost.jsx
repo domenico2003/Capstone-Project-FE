@@ -10,6 +10,13 @@ const ModalPost = (props) => {
   const [validated, setValidated] = useState(false);
   const [modificaSuccess, setModificaSuccess] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
+  const [erroreCreate, setErroreCreate] = useState("");
+  const [erroreModifica, setErroreModifica] = useState("");
+  // else {
+  //   let dato = await risposta.json();
+  //   setErrore(dato.message);
+  // }
+
   useEffect(() => {
     if (props.post !== undefined) {
       setTesto(props.post?.contenuto);
@@ -45,7 +52,7 @@ const ModalPost = (props) => {
           let risposta = await fetch(URL, headers);
           if (risposta.ok) {
             let dato = await risposta.json();
-
+            setErroreCreate("");
             setCreateSuccess(true);
 
             setTimeout(() => {
@@ -53,6 +60,9 @@ const ModalPost = (props) => {
               props.onHide();
               props.gruppopostfetch();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreCreate(dato.message);
           }
         } catch (error) {
           console.log(error);
@@ -76,7 +86,7 @@ const ModalPost = (props) => {
           let risposta = await fetch(URL, headers);
           if (risposta.ok) {
             let dato = await risposta.json();
-
+            setErroreModifica("");
             setModificaSuccess(true);
 
             setTimeout(() => {
@@ -84,10 +94,19 @@ const ModalPost = (props) => {
               props.onHide();
               props.gruppopostfetch();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreModifica(dato.message);
           }
         } catch (error) {
           console.log(error);
         }
+      }
+    } else {
+      if (props.post === undefined) {
+        setErroreCreate("Devi inserire il testo del post");
+      } else {
+        setErroreModifica("Devi inserire il testo del post");
       }
     }
   };
@@ -142,6 +161,12 @@ const ModalPost = (props) => {
                 maxLength={6000}
               />
             </Form.Group>
+            {erroreCreate !== "" && (
+              <p className="text-danger mt-3">{erroreCreate}</p>
+            )}
+            {erroreModifica !== "" && (
+              <p className="text-danger mt-3">{erroreModifica}</p>
+            )}
 
             <div className="d-flex mt-5 justify-content-around ">
               <Button type="submit" variant="quaternario">

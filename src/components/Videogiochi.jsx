@@ -61,7 +61,9 @@ const Videogiochi = () => {
     videogiochiFetch();
   }, [pagina]);
   useEffect(() => {
-    generiFetch();
+    if (localStorage.getItem("token") !== null) {
+      generiFetch();
+    }
   }, []);
 
   const videogiochiFetch = async (customUrl) => {

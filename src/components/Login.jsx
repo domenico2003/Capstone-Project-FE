@@ -10,6 +10,8 @@ const Login = () => {
   const [validated, setValidated] = useState(false);
   const [emailInserita, setEmailInserita] = useState("");
   const [passwordInserita, setPasswordInserita] = useState("");
+  const [errore, setErrore] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -36,8 +38,12 @@ const Login = () => {
         if (risposta.ok) {
           let dato = await risposta.json();
           localStorage.setItem("token", dato.token);
+          setErrore("");
           dispatch(profileFetch());
           navigate("/");
+        } else {
+          let dato = await risposta.json();
+          setErrore(dato.message);
         }
       } catch (error) {
         console.log(error);
@@ -105,6 +111,7 @@ const Login = () => {
                 </small>
               </Col>
             </Row>
+            {errore !== "" && <p className="text-danger mt-3">{errore}</p>}
           </Form>
         </Col>
       </Row>

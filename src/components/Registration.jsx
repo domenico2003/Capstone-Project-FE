@@ -14,6 +14,9 @@ const Registration = () => {
   const [nomeInserito, setNomeInserito] = useState("");
   const [cognomeInserito, setCognomeInserito] = useState("");
   const [validated, setValidated] = useState(false);
+
+  const [errore, setErrore] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -48,8 +51,16 @@ const Registration = () => {
         let risposta = await fetch(URL, headers);
         if (risposta.ok) {
           let dato = await risposta.json();
+          setErrore("");
           localStorage.setItem("token", dato.token);
           handleRegistred();
+        } else {
+          let dato = await risposta.json();
+          setErrore(dato.message);
+
+          setTimeout(() => {
+            setSpinnerStatus(false);
+          }, 2000);
         }
       } catch (error) {
         console.log(error);
@@ -84,7 +95,7 @@ const Registration = () => {
     } finally {
       setTimeout(() => {
         setSpinnerStatus(false);
-      }, 2500);
+      }, 2000);
     }
   };
   return (
@@ -187,6 +198,7 @@ const Registration = () => {
                 </small>
               </Col>
             </Row>
+            {errore !== "" && <p className="text-danger mt-3">{errore}</p>}
           </Form>
         </Col>
       </Row>

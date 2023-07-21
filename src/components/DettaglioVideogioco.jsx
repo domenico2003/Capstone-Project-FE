@@ -318,11 +318,6 @@ const DettaglioVideogioco = () => {
                       ))}
                     </p>{" "}
                     <hr className="border-3 opacity-none border-quaternario mb-0" />
-                    <p className="m-0 fw-bold">Data Rilascio:</p>
-                    <p className="m-0 text-white-50">
-                      {videogioco?.dataRilascio}
-                    </p>
-                    <hr className="border-3 opacity-none border-quaternario mb-0" />
                     <p className="m-0 fw-bold">Azienda proprietaria:</p>
                     <p className="m-0 text-white-50">
                       {videogioco?.aziendaProprietaria}

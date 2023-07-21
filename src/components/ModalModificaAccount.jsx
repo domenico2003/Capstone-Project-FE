@@ -16,6 +16,8 @@ const ModalModificaAccount = (props) => {
   const [nomeInserito, setNomeInserito] = useState("");
   const [cognomeInserito, setCognomeInserito] = useState("");
 
+  const [errore, setErrore] = useState("");
+
   useEffect(() => {
     setEmailInserita(profile?.email);
     setImmagineInserita(profile?.immagineProfilo);
@@ -38,6 +40,7 @@ const ModalModificaAccount = (props) => {
       nomeInserito !== "" &&
       cognomeInserito !== ""
     ) {
+      setErrore("");
       const URL = "http://localhost:3001/utente/" + profile?.id;
       const headers = {
         method: "PUT",
@@ -57,17 +60,21 @@ const ModalModificaAccount = (props) => {
         let risposta = await fetch(URL, headers);
         if (risposta.ok) {
           let dato = await risposta.json();
+          setErrore("");
           setModificaSuccess(true);
           setTimeout(() => {
             setModificaSuccess(false);
             dispatch(profileFetch());
             props.onHide();
           }, 1500);
+        } else {
+          let dato = await risposta.json();
+          setErrore(dato.message);
         }
       } catch (error) {
         console.log(error);
       }
-    }
+    } else setErrore("compilare tutti i campi");
   };
 
   return (
@@ -167,6 +174,7 @@ const ModalModificaAccount = (props) => {
                 Inserisci il tuo username!
               </Form.Control.Feedback>
             </Form.Group>
+            {errore !== "" && <p className="text-danger mt-3">{errore}</p>}
             <div className="d-flex mt-5 justify-content-around ">
               <Button type="submit" variant="quaternario">
                 modifica

@@ -9,6 +9,9 @@ const ModalAggiungiVideogioco = (props) => {
   const [validated, setValidated] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
   const [modificaSuccess, setModificaSuccess] = useState(false);
+  const [erroreCreazione, setErroreCreazione] = useState("");
+  const [erroreModifica, setErroreModifica] = useState("");
+
   // generi da scegliere
   const [generiPresenti, setGeneriPresenti] = useState([]);
   const [generiDaMostrare, setGeneriDaMostrare] = useState([]);
@@ -97,15 +100,19 @@ const ModalAggiungiVideogioco = (props) => {
     }
     setValidated(true);
     if (
-      (nomeVideogioco !== "",
-      copertina !== "",
-      descrizione !== "",
-      aziendaProprietaria !== "",
-      videoTrailer !== "",
-      dataRilascio !== "",
-      allGeneri.length > 0,
-      allPiattaforme.length > 0)
+      nomeVideogioco !== "" &&
+      copertina !== "" &&
+      descrizione !== "" &&
+      aziendaProprietaria !== "" &&
+      videoTrailer !== "" &&
+      dataRilascio !== "" &&
+      allGeneri.length > 0 &&
+      allPiattaforme.length > 0
     ) {
+      console.log(allGeneri.length > 0);
+      console.log(allPiattaforme);
+      setErroreCreazione("");
+      setErroreModifica("");
       if (props.videogioco === undefined) {
         const URL = "http://localhost:3001/videogioco";
         const headers = {
@@ -131,11 +138,14 @@ const ModalAggiungiVideogioco = (props) => {
           if (risposta.ok) {
             let dato = await risposta.json();
             setCreateSuccess(true);
-
+            setErroreCreazione("");
             setTimeout(() => {
               setCreateSuccess(false);
               props.onHide();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreCreazione(dato.message);
           }
         } catch (error) {
           console.log(error);
@@ -165,16 +175,25 @@ const ModalAggiungiVideogioco = (props) => {
           if (risposta.ok) {
             let dato = await risposta.json();
             setModificaSuccess(true);
-
+            setErroreModifica("");
             setTimeout(() => {
               setModificaSuccess(false);
               props.fetch();
               props.onHide();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreModifica(dato.message);
           }
         } catch (error) {
           console.log(error);
         }
+      }
+    } else {
+      if (props.videogioco === undefined) {
+        setErroreCreazione("Compilare tutti i campi");
+      } else {
+        setErroreModifica("Compilare tutti i campi");
       }
     }
   };
@@ -517,6 +536,12 @@ const ModalAggiungiVideogioco = (props) => {
                 Inserisci la data del lancio ufficiale!
               </Form.Control.Feedback>
             </Form.Group>
+            {erroreCreazione !== "" && (
+              <p className="text-danger mt-3">{erroreCreazione}</p>
+            )}
+            {erroreModifica !== "" && (
+              <p className="text-danger mt-3">{erroreModifica}</p>
+            )}
             <div className=" d-flex justify-content-evenly">
               <Button variant="success" type="submit">
                 {props.videogioco !== undefined ? "Modifica" : "Crea"}

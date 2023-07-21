@@ -9,11 +9,14 @@ const ModalRecensioni = (props) => {
   let profile = useSelector((state) => state.profilo.me);
 
   const [hover, setHover] = useState(null);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(-1);
   const [descrizione, setDescrizione] = useState("");
   const [validated, setValidated] = useState(false);
   const [modificaSuccess, setModificaSuccess] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
+  const [erroreModifica, setErroreModifica] = useState("");
+  const [erroreCreate, setErroreCreate] = useState("");
+
   useEffect(() => {
     if (props.recensione !== undefined) {
       setRating(props.recensione?.valutazione);
@@ -30,6 +33,8 @@ const ModalRecensioni = (props) => {
     }
     setValidated(true);
     if (rating !== -1 && descrizione !== "") {
+      setErroreModifica("");
+      setErroreCreate("");
       if (props.recensione !== undefined) {
         const URL = "http://localhost:3001/recensione/" + props.recensione?.id;
         const headers = {
@@ -49,6 +54,7 @@ const ModalRecensioni = (props) => {
           let risposta = await fetch(URL, headers);
           if (risposta.ok) {
             let dato = await risposta.json();
+            setErroreModifica("");
 
             setModificaSuccess(true);
 
@@ -57,6 +63,9 @@ const ModalRecensioni = (props) => {
               props.onHide();
               props.recensionifetch();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreModifica(dato.message);
           }
         } catch (error) {
           console.log(error);
@@ -81,6 +90,7 @@ const ModalRecensioni = (props) => {
           if (risposta.ok) {
             let dato = await risposta.json();
 
+            setErroreCreate("");
             setCreateSuccess(true);
 
             setTimeout(() => {
@@ -88,10 +98,19 @@ const ModalRecensioni = (props) => {
               props.onHide();
               props.recensionifetch();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreCreate(dato.message);
           }
         } catch (error) {
           console.log(error);
         }
+      }
+    } else {
+      if (props.recensione !== undefined) {
+        setErroreModifica("Compila tutti i campi");
+      } else {
+        setErroreCreate("Compila tutti i campi");
       }
     }
   };
@@ -163,6 +182,12 @@ const ModalRecensioni = (props) => {
                 maxLength={1000}
               />
             </Form.Group>
+            {erroreCreate !== "" && (
+              <p className="text-danger mt-3">{erroreCreate}</p>
+            )}
+            {erroreModifica !== "" && (
+              <p className="text-danger mt-3">{erroreModifica}</p>
+            )}
             <div className="d-flex mt-5 justify-content-around ">
               <Button type="submit" variant="quaternario">
                 {props.recensione !== undefined ? "modifica" : "Publica"}

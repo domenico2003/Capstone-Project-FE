@@ -13,6 +13,9 @@ const ModalGruppo = (props) => {
   const [validated, setValidated] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
   const [modificaSuccess, setModificaSuccess] = useState(false);
+  const [erroreCreate, setErroreCreate] = useState("");
+  const [erroreModifica, setErroreModifica] = useState("");
+
   // argomenti da scegliere
   const [argomentiPresenti, setArgomentiPresenti] = useState([]);
   const [argomentiDaMostrare, setArgomentiDaMostrare] = useState([]);
@@ -75,11 +78,13 @@ const ModalGruppo = (props) => {
     }
     setValidated(true);
     if (
-      (nomeGruppo !== "",
-      immagineGruppo !== "",
-      descrizione !== "",
-      allArgomenti.length > 0)
+      nomeGruppo !== "" &&
+      immagineGruppo !== "" &&
+      descrizione !== "" &&
+      allArgomenti.length > 0
     ) {
+      setErroreModifica("");
+      setErroreCreate("");
       if (props.gruppo === undefined) {
         const URL = "http://localhost:3001/gruppo";
         const headers = {
@@ -100,6 +105,7 @@ const ModalGruppo = (props) => {
           let risposta = await fetch(URL, headers);
           if (risposta.ok) {
             let dato = await risposta.json();
+            setErroreCreate("");
             setCreateSuccess(true);
             dispatch(profileFetch());
             setTimeout(() => {
@@ -107,6 +113,9 @@ const ModalGruppo = (props) => {
               navigate("/gruppi/" + dato.id);
               props.onHide();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreCreate(dato.message);
           }
         } catch (error) {
           console.log(error);
@@ -131,6 +140,7 @@ const ModalGruppo = (props) => {
           let risposta = await fetch(URL, headers);
           if (risposta.ok) {
             let dato = await risposta.json();
+            setErroreModifica("");
             setModificaSuccess(true);
 
             setTimeout(() => {
@@ -138,10 +148,19 @@ const ModalGruppo = (props) => {
               props.fetch();
               props.onHide();
             }, 1500);
+          } else {
+            let dato = await risposta.json();
+            setErroreModifica(dato.message);
           }
         } catch (error) {
           console.log(error);
         }
+      }
+    } else {
+      if (props.gruppo === undefined) {
+        setErroreCreate("compilare tutti i campi");
+      } else {
+        setErroreModifica("compilare tutti i campi");
       }
     }
   };
@@ -330,6 +349,12 @@ const ModalGruppo = (props) => {
                 Inserisci la descrizione del gruppo!
               </Form.Control.Feedback>
             </Form.Group>
+            {erroreModifica !== "" && (
+              <p className="text-danger mt-3">{erroreModifica}</p>
+            )}
+            {erroreCreate !== "" && (
+              <p className="text-danger mt-3">{erroreCreate}</p>
+            )}
             <div className=" d-flex justify-content-evenly">
               <Button variant="success" type="submit">
                 {props.gruppo !== undefined ? "Modifica" : "Crea"}

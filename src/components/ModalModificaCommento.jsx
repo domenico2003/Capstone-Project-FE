@@ -8,14 +8,17 @@ const ModalModificaCommento = (props) => {
   const [commento, setCommento] = useState("");
   const [validated, setValidated] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errore, setErrore] = useState("");
+
   useEffect(() => {
     setCommento(props.commento?.testo);
-  }, [props]);
+  }, []);
   const lasciaCommentoFetch = async (e) => {
     e.preventDefault();
 
     if (commento !== "") {
       setValidated(true);
+      setErrore("");
       const URL = "http://localhost:3001/commento/" + props.commento?.id;
       const headers = {
         method: "PUT",
@@ -34,6 +37,7 @@ const ModalModificaCommento = (props) => {
         let risposta = await fetch(URL, headers);
         if (risposta.ok) {
           let dato = await risposta.json();
+          setErrore("");
           setShowSuccessModal(true);
           setCommento(dato.testo);
           setTimeout(() => {
@@ -41,10 +45,15 @@ const ModalModificaCommento = (props) => {
             props.onHide();
             props.allCommentiFetch();
           }, 1500);
+        } else {
+          let dato = await risposta.json();
+          setErrore(dato.message);
         }
       } catch (error) {
         console.log(error);
       }
+    } else {
+      setErrore("inserisci il contenuto del commento");
     }
   };
   return (
@@ -81,7 +90,7 @@ const ModalModificaCommento = (props) => {
                 required
               />
             </Form.Group>
-
+            {errore !== "" && <p className="text-danger mt-3">{errore}</p>}
             <div className="d-flex mt-5 justify-content-around ">
               <Button
                 type="submit"
