@@ -32,6 +32,7 @@ const SingolaRecensione = ({
 
         setTimeout(() => {
           setDeleteSuccess(false);
+          fetchvid();
           recensionefetch();
         }, 1500);
       }
