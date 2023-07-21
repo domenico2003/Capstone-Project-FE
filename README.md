@@ -28,6 +28,6 @@ l'obiettivo del progetto è quello di trovare un gioco che segua gli standard de
  2. aprire il terminale git su questa repository e effettuare il comando ***npm i*** 
  3. una volta completata l'operazione precedente seguire le istruzioni per l'istallazione del  [back-end](https://github.com/domenico2003/Capstone-Project-BE) sulla sua repository 
  4.  completato il tutto eseguire sul terminale il comando **npm start**
-## miei contatti
+## contattami
    
-| linkedin: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       |                                                                                          portfolio: [portfolio](portfolio)|
+**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       |   **email** :   [domdat03@gmail.com](https://mail.google.com/mail/u/0/#inbox)     |                                                                               **portfolio**: [portfolio](portfolio)|
