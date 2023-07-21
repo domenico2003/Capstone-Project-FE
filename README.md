@@ -30,4 +30,4 @@ l'obiettivo del progetto è quello di trovare un gioco che segua gli standard de
  4.  completato il tutto eseguire sul terminale il comando **npm start**
 ## contattami
    
-**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       |   **email** :   [domdat03@gmail.com](https://mail.google.com/domdat03@gmail.com)     |    **portfolio**: [portfolio](portfolio)|
+**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       |   **email** :   domdat03@gmail.com |    **portfolio**: [portfolio](portfolio)|
