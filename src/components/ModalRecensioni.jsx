@@ -60,6 +60,7 @@ const ModalRecensioni = (props) => {
 
             setTimeout(() => {
               setModificaSuccess(false);
+              props.fetchvid();
               props.onHide();
               props.recensionifetch();
             }, 1500);
@@ -95,6 +96,7 @@ const ModalRecensioni = (props) => {
 
             setTimeout(() => {
               setCreateSuccess(false);
+              props.fetchvid();
               props.onHide();
               props.recensionifetch();
             }, 1500);

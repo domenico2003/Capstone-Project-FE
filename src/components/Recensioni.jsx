@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import SingolaRecensione from "./SingolaRecensione";
 import ModalRecensioni from "./ModalRecensioni";
 
-const Recensioni = ({ videogioco }) => {
+const Recensioni = ({ videogioco, fetchvid }) => {
   let profile = useSelector((state) => state.profilo.me);
 
   const [recensioni, setRecensioni] = useState(null);
@@ -85,6 +85,7 @@ const Recensioni = ({ videogioco }) => {
                   recensione={recensione}
                   giocoid={videogioco?.id}
                   recensionefetch={() => recensioniFetch()}
+                  fetchvid={() => fetchvid()}
                 />
               ))}
             </>
@@ -129,6 +130,7 @@ const Recensioni = ({ videogioco }) => {
           onHide={() => setRecensioneModale(false)}
           recensionifetch={() => recensioniFetch()}
           giocoId={videogioco?.id}
+          fetchvid={() => fetchvid()}
         />
       )}
     </>

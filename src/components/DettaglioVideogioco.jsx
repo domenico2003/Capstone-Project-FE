@@ -350,7 +350,10 @@ const DettaglioVideogioco = () => {
           {/* recensioni */}
           <Container className="mt-5">
             {" "}
-            <Recensioni videogioco={videogioco} />
+            <Recensioni
+              fetchvid={() => videogiocoDetails()}
+              videogioco={videogioco}
+            />
           </Container>
           {modaleResponsabile && (
             <ModaleResponsabile

@@ -6,7 +6,12 @@ import StarVideogioco from "./StarVideogioco";
 import { useState } from "react";
 import ModalRecensioni from "./ModalRecensioni";
 import ModalSuccessAction from "./ModalSuccessAction";
-const SingolaRecensione = ({ recensione, recensionefetch, giocoid }) => {
+const SingolaRecensione = ({
+  recensione,
+  recensionefetch,
+  giocoid,
+  fetchvid,
+}) => {
   let profile = useSelector((state) => state.profilo.me);
   const [recensioneModale, setRecensioneModale] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -111,6 +116,7 @@ const SingolaRecensione = ({ recensione, recensionefetch, giocoid }) => {
           recensionifetch={recensionefetch}
           recensione={recensione}
           giocoId={giocoid}
+          fetchvid={() => fetchvid()}
         />
       )}
       {rimuoviRecensione && (
