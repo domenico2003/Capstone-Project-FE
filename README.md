@@ -5,7 +5,7 @@
 
 **gamerHUB**  è ideato 💡e creato per tutte quelle persone che sono  appassionate di videogiochi, infatti il sito avrà modo di agevolare i videogiocatori nella scelta del videogioco🎮 e nella comunicazione tra di loro.
 
-## tecnologie usate🤖
+## Tecnologie usate🤖
 
 Le **tecnologie** utilizzate per questo progetto sono:
  - per il ***front-end*** ⏩:
@@ -24,7 +24,7 @@ Le **tecnologie** utilizzate per questo progetto sono:
  6. **jwt token**
 - ***database*** 🗄️
 1.  **postgreSQL** 
-## caratteristiche progetto
+## Caratteristiche progetto
 
 le diverse sezioni di **gamerHUB**  verranno elencate di seguito:
 
@@ -45,16 +45,16 @@ Qui potrai vedere i dettagli del videogioco, scrivere e vedere recensioni e in c
 
 ## Obiettivo del progetto🎯
 
-l'obiettivo del progetto è quello di trovare🔍 un gioco🕹️ che segua gli standard dell'utente👤 e permettere a quest'ultimo di trovare🔍 altre persone👥 con cui condividere🔁  le proprie esperienze sui videogiochi🕹️ e fare amicizia
+L'obiettivo del progetto è quello di trovare🔍 un gioco🕹️ che segua gli standard dell'utente👤 e permettere a quest'ultimo di trovare🔍 altre persone👥 con cui condividere🔁  le proprie esperienze sui videogiochi🕹️ e fare amicizia
 
-## clonazione progetto🖨️
- per clonare il progetto seguire i seguenti passaggi in ordine :
+## Clonazione progetto🖨️
+ Per clonare il progetto seguire i seguenti passaggi in ordine :
  1. clonare questa repository  e la repository del [back-end](https://github.com/domenico2003/Capstone-Project-BE) 
  2. aprire il terminale git su questa repository e effettuare il comando ***npm i*** 
  3. una volta completata l'operazione precedente seguire le istruzioni per l'istallazione del  [back-end](https://github.com/domenico2003/Capstone-Project-BE) sulla sua repository 
  4.  completato il tutto eseguire sul terminale il comando **npm start**
 
-## contattami📲
+## Contattami📲
 Sarei più che felice di ricevere feedback, suggerimenti e domande sul progetto. Non esitare a contattarmi per qualsiasi cosa.
 
 - 👥**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)
