@@ -1,6 +1,6 @@
 # gamerHUB
 
-## **presentazione progetto**
+##  ***presentazione progetto***
 
 il seguente progetto è indirizzato a chi, come me, è appassionato di videogiochi, infatti l'applicazione avrà modo di agevolare i videogiocatori nella scelta del gioco e nella comunicazione tra di loro
 
@@ -22,5 +22,12 @@ di seguito verranno elencati le parti principali del progetto
 ## Obiettivo del progetto
 
 l'obiettivo del progetto è quello di trovare un gioco che segua gli standard dell'utente e permettere a quest'ultimo di trovare altre persone con cui condividere le proprie esperienze sui videogiochi e fare amicizia
-# back-end
-visita la repository del back-end https://github.com/domenico2003/Capstone-Project-BE
+# clonazione progetto
+ per clonare il progetto seguire i seguenti passaggi in ordine :
+ 1. clonare questa repository  e la repository del [back-end](https://github.com/domenico2003/Capstone-Project-BE) 
+ 2. aprire il terminale git su questa repository e effettuare il comando ***npm i*** 
+ 3. una volta completata l'operazione precedente seguire le istruzioni per l'istallazione del  [back-end](https://github.com/domenico2003/Capstone-Project-BE) sulla sua repository 
+ 4.  completato il tutto eseguire sul terminale il comando **npm start**
+## miei contatti
+   
+| linkedin: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       |                                                                                          portfolio: [portfolio](portfolio)|
