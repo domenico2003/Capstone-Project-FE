@@ -5,7 +5,8 @@
 
 **gamerHUB**  è ideato 💡e creato per tutte quelle persone che sono  appassionate di videogiochi, infatti il sito avrà modo di agevolare i videogiocatori nella scelta del videogioco🎮 e nella comunicazione tra di loro.
 
-### tecnologie usate🤖
+## tecnologie usate🤖
+
 Le **tecnologie** utilizzate per questo progetto sono:
  - per il ***front-end*** ⏩:
  1. **React**
@@ -23,7 +24,7 @@ Le **tecnologie** utilizzate per questo progetto sono:
  6. **jwt token**
 - ***database*** 🗄️
 1.  **postgreSQL** 
-### caratteristiche progetto
+## caratteristiche progetto
 
 le diverse sezioni di **gamerHUB**  verranno elencate di seguito:
 
@@ -46,7 +47,7 @@ Qui potrai vedere i dettagli del videogioco, scrivere e vedere recensioni e in c
 
 l'obiettivo del progetto è quello di trovare🔍 un gioco🕹️ che segua gli standard dell'utente👤 e permettere a quest'ultimo di trovare🔍 altre persone👥 con cui condividere🔁  le proprie esperienze sui videogiochi🕹️ e fare amicizia
 
-# clonazione progetto🖨️
+## clonazione progetto🖨️
  per clonare il progetto seguire i seguenti passaggi in ordine :
  1. clonare questa repository  e la repository del [back-end](https://github.com/domenico2003/Capstone-Project-BE) 
  2. aprire il terminale git su questa repository e effettuare il comando ***npm i*** 
@@ -56,6 +57,8 @@ l'obiettivo del progetto è quello di trovare🔍 un gioco🕹️ che segua gli 
 ## contattami📲
 Sarei più che felice di ricevere feedback, suggerimenti e domande sul progetto. Non esitare a contattarmi per qualsiasi cosa.
 
--👥**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)       -📧  **email** :   domdat03@gmail.com    -📒 **portfolio**: [portfolio](portfolio)|
+- 👥**linkedin**: [Domenico Dattilo](https://www.linkedin.com/in/domenico-dattilo/)
+-  📧  **email** :   domdat03@gmail.com
+-  📒 **portfolio**: [portfolio](portfolio)
 
 
