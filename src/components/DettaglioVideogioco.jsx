@@ -9,7 +9,7 @@ import {
   Dropdown,
   Modal,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import NoAccessContent from "./NoAccessContent";
 import StarVideogioco from "./StarVideogioco";
@@ -18,11 +18,13 @@ import { IoMdSettings } from "react-icons/io";
 import ModaleResponsabile from "./ModaleResponsabile";
 import ModalAggiungiVideogioco from "./ModalAggiungiVideogioco";
 import ModalSuccessAction from "./ModalSuccessAction";
+import { videogiochiHomeFetch } from "../redux/actions";
 
 const DettaglioVideogioco = () => {
   let profile = useSelector((state) => state.profilo.me);
   const navigate = useNavigate();
   const params = useParams();
+  const dispatch = useDispatch();
   const [videogioco, setVideogioco] = useState(null);
   const [isPreferito, setIsPreferito] = useState(null);
   const [modificaVideogioco, setModificaVideogioco] = useState(false);
@@ -41,7 +43,7 @@ const DettaglioVideogioco = () => {
       let risposta = await fetch(URL, headers);
       if (risposta.ok) {
         setDeleteSuccess(true);
-
+        dispatch(videogiochiHomeFetch());
         setTimeout(() => {
           setDeleteSuccess(false);
           navigate("/");
@@ -217,7 +219,7 @@ const DettaglioVideogioco = () => {
                     </Dropdown>
                   )}
                 </div>
-                <p className="text-white-50 text-center text-md-start">
+                <p className="text-white-50 w-lg-50 text-center text-md-start">
                   {videogioco?.descrizione}
                 </p>
               </div>
@@ -381,12 +383,12 @@ const DettaglioVideogioco = () => {
             >
               <Modal.Header closeButton className="bg-secondario">
                 <Modal.Title id="example-modal-sizes-title-sm">
-                  Elimina recensione
+                  Elimina videogioco
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body className="bg-secondario d-flex flex-column align-items-center">
                 <p className="text-center">
-                  Sicuro di voler eliminare la recensione?
+                  Sicuro di voler eliminare il videogioco?
                 </p>
                 <div>
                   <Button

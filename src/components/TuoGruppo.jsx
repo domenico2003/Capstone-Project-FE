@@ -438,7 +438,7 @@ const TuoGruppo = ({ mioGruppo }) => {
                 variant="outline-quaternario"
                 size="sm"
                 className="ms-4"
-                onClick={() => eliminaModale(false)}
+                onClick={() => setEliminaModale(false)}
               >
                 Chiudi
               </Button>

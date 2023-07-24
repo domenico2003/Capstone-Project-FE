@@ -38,7 +38,9 @@ const VideogiocoHome = ({ videogioco, indice }) => {
               className="d-none d-md-flex flex-column align-items-end justify-content-between"
             >
               <div className="d-flex flex-column align-items-end">
-                <p className="m-0 display-5 fw-bold  ">{videogioco?.nome}</p>
+                <p className="m-0 display-5 fw-bold text-end ">
+                  {videogioco?.nome}
+                </p>
                 <div className="my-3">
                   <span className="h4 me-2">
                     {videogioco?.valutazioneMedia}/5
@@ -58,7 +60,9 @@ const VideogiocoHome = ({ videogioco, indice }) => {
                     ))}
                   </span>
                 </div>
-                <p className="text-white-50">{videogioco?.descrizione}</p>
+                <p className="text-white-50 text-end w-50">
+                  {videogioco?.descrizione}
+                </p>
               </div>
               <div className="d-flex flex-column align-items-end mb-5">
                 <div className="d-flex flex-column align-items-end">
@@ -82,12 +86,12 @@ const VideogiocoHome = ({ videogioco, indice }) => {
               xs={9}
               md={4}
               lg={3}
-              className="d-flex justify-content-center img-container"
+              className="d-flex justify-content-center img-container-col"
             >
               <img
                 src={videogioco.copertina}
                 alt={videogioco.nome}
-                className="img-fluid"
+                className="img-fluid img-container"
               />
             </Col>
             <Col
@@ -95,7 +99,9 @@ const VideogiocoHome = ({ videogioco, indice }) => {
               className="d-flex d-md-none flex-column align-items- justify-content-between"
             >
               <div className="d-flex flex-column align-items-center">
-                <p className="m-0 display-5 fw-bold  ">{videogioco?.nome}</p>
+                <p className="m-0 display-5 fw-bold text-center ">
+                  {videogioco?.nome}
+                </p>
                 <div className="my-3">
                   <span className="h4 me-2">
                     {videogioco?.valutazioneMedia}/5
@@ -115,7 +121,7 @@ const VideogiocoHome = ({ videogioco, indice }) => {
                     ))}
                   </span>
                 </div>
-                <p className="text-white-50">{videogioco?.descrizione}</p>
+                <p className="text-white-50 ">{videogioco?.descrizione}</p>
               </div>
               <div className="d-flex flex-column align-items-center mb-5">
                 <div className="d-flex flex-column align-items-center">
@@ -145,23 +151,24 @@ const VideogiocoHome = ({ videogioco, indice }) => {
           >
             <Col
               xs={9}
-              md={4}
+              md={3}
               lg={3}
-              className="d-flex justify-content-center img-container"
+              className="d-flex justify-content-center img-container-col "
             >
               <img
                 src={videogioco.copertina}
                 alt={videogioco.nome}
-                className="img-fluid"
+                className="img-fluid img-container"
               />
             </Col>
             <Col
-              xs={8}
-              lg={9}
+              xs={9}
               className="d-flex flex-column align-items-md-start align-items-center justify-content-between"
             >
               <div className="d-flex flex-column align-items-center align-items-md-start">
-                <p className="m-0 display-5 fw-bold  ">{videogioco?.nome}</p>
+                <p className="m-0 display-5 fw-bold  text-center">
+                  {videogioco?.nome}
+                </p>
                 <div className="my-3">
                   <span>
                     {stellePiene.map((nStella) => (
@@ -181,7 +188,9 @@ const VideogiocoHome = ({ videogioco, indice }) => {
                     {videogioco?.valutazioneMedia}/5
                   </span>
                 </div>
-                <p className="text-white-50">{videogioco?.descrizione}</p>
+                <p className="text-white-50 w-md-50">
+                  {videogioco?.descrizione}
+                </p>
               </div>
               <div className="d-flex flex-column align-items-center  align-items-md-start mb-5">
                 <div className="d-flex flex-column align-items-center align-items-md-start">

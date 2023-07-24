@@ -40,8 +40,8 @@ Body {
 }
 
 .immagineGruppoHome {
-  max-height: 40px;
-  width: max-content;
+  max-height: 50px;
+  width: 100%;
   border-radius: 10px;
 }
 
@@ -309,6 +309,9 @@ Body {
   .w-custom-2 {
     width: 100%;
   }
+  .w-md-50 {
+    width: 50%;
+  }
 }
 
 @media (min-width: 992px) {
@@ -317,6 +320,9 @@ Body {
   }
   .w-custom-2 {
     width: 80%;
+  }
+  .w-lg-50 {
+    width: 50%;
   }
 }
 @media (min-width: 1200px) {
@@ -359,4 +365,15 @@ input[type="radio"] + label:before {
 
 input[type="radio"]:checked + label:before {
   background-color: #000;
+}
+
+.img-container {
+  object-fit: contain;
+}
+.img-container-col {
+  background: linear-gradient(
+    193deg,
+    rgba(11, 22, 34, 1) 2%,
+    rgba(50, 7, 80, 1) 100%
+  );
 }

@@ -385,7 +385,7 @@ const ModalAggiungiVideogioco = (props) => {
                 variant="quaternario"
                 onClick={handleInputChange}
               >
-                Agggiungi
+                Aggiungi
               </Button>
             </div>
             <Row className="my-4 ms-2">
@@ -438,7 +438,7 @@ const ModalAggiungiVideogioco = (props) => {
                 variant="quaternario"
                 onClick={handleInputChangePiattaforma}
               >
-                Agggiungi
+                Aggiungi
               </Button>
             </div>
             <Row className="my-4 ms-2">

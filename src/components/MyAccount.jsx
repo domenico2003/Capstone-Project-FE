@@ -367,6 +367,11 @@ const MyAccount = () => {
                       </Col>
                     </Row>
                   )}
+                  {videogiochi?.content.length === 0 && !spinner && (
+                    <p className="text-center display-6 mt-0 fw-bold text-bianco">
+                      Nessun videogioco aggiunto
+                    </p>
+                  )}
                 </Tab>
               )}
               <Tab eventKey="gruppi creati" title="gruppi creati">
@@ -451,7 +456,7 @@ const MyAccount = () => {
                 variant="outline-quaternario"
                 size="sm"
                 className="ms-4"
-                onClick={() => eliminaModale(false)}
+                onClick={() => setEliminaModale(false)}
               >
                 Chiudi
               </Button>

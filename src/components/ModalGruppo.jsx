@@ -292,7 +292,7 @@ const ModalGruppo = (props) => {
                 variant="quaternario"
                 onClick={handleInputChange}
               >
-                Agggiungi
+                Aggiungi
               </Button>
             </div>
             <Row className="my-4 ms-2">
