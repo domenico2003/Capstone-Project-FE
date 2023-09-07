@@ -63,11 +63,9 @@ const Messaggistica = ({ idGruppo }) => {
                 setModalePost(true);
               }}
             >
-              <Form.Control
-                placeholder="Publica un post"
-                disabled
-                className=" pointer input-per-post bg-primario"
-              />
+              <p className="form-control text-quaternario mt-3 mb-0 pointer input-per-post bg-primario ">
+                Publica un post
+              </p>
             </div>
           </Col>
         )}

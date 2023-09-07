@@ -63,11 +63,12 @@ const Recensioni = ({ videogioco, fetchvid }) => {
                 setRecensioneModale(true);
               }}
             >
-              <Form.Control
-                placeholder="scrivi una recensione"
+              <p
+                className="form-control text-quaternario mt-3 mb-0 pointer input-per-post bg-primario "
                 disabled
-                className=" pointer input-per-post bg-primario "
-              />
+              >
+                scrivi una recensione
+              </p>
             </div>
           </div>
           {spinner ? (
